@@ -27,6 +27,10 @@ jobs:
       - run: npm run build
         env:
           PAGES_BASE_PATH: /canopy-interactive-presentation
+      # Vinext exports the base-path assets below a matching directory. GitHub
+      # Pages already strips that path before resolving files, so place the
+      # generated asset directory at the artifact root as well.
+      - run: cp -R dist/client/canopy-interactive-presentation/_next dist/client/_next
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
