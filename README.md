@@ -9,10 +9,17 @@ date, source links, and optional demo URLs.
 Edit app/globals.css for design tokens. Blank demo URLs intentionally hide the links.
 Use Next/Back, arrow keys, Page Up/Page Down, Space, or ordinary scrolling.
 Overview revisits an idea and resets to the start. Notes are off by default.
-The opening scene loops quietly until the first Next holds the completed team for discussion.
+The opening scene loops until the first Next holds its exact position for discussion.
 Slide 02 advances through animated chat, agent, and software examples; Replay
-restarts the current illustration. Try the brief builder, work-example tabs,
-permission gate, human checkpoints, discovery signal, and build illustration.
+restarts the current illustration. Slide 03 assembles an agent one component at a time.
+Slides 04–11 carry the opening's visual language through the rest of the story:
+select a system around the human director, choose a work example, allow reading
+and changes separately, review and correct a draft, explore human checkpoints,
+inspect a fictional discovery signal, and walk through build/use/refine.
+The closing diagram returns to one task, a useful result, and human review.
+Pause/Resume beneath each of those diagrams holds its motion for discussion.
+Animations stop on inactive slides and respect reduced-motion preferences.
+Inactive slides also stay out of keyboard and assistive-technology navigation.
 These demonstrations use illustrative data and do not contact external services.
 Only the current reveal position is stored locally. No AI backend or analytics.
 
