@@ -18,13 +18,16 @@ function PromptList() {
 }
 
 function TeamVisual({ phase }: { phase: number }) {
-  const roles = [['Research', Search], ['Write', FileText], ['Analyze', BrainCircuit], ['Build', Code2]] as const;
-  return <div className={'team-visual director-team' + (phase ? ' is-held' : '')} role="img" aria-label={phase ? 'A human director with a complete team of digital agents.' : 'A human director assembling a team of digital agents.'}>
-    <div className="team-legend"><span className="signal-dot" />{phase ? 'Team in view' : 'Building the team'}<small>{phase ? 'A moment to discuss the manager’s role.' : 'A quiet loop for the room.'}</small></div>
-    <svg className="team-network" viewBox="0 0 760 390" aria-hidden="true"><ellipse cx="380" cy="195" rx="175" ry="138" /><ellipse className="network-orbit" cx="380" cy="195" rx="286" ry="173" /><path className="network-path path-0" d="M380 195 L380 42" /><path className="network-path path-1" d="M380 195 L637 172" /><path className="network-path path-2" d="M380 195 L380 348" /><path className="network-path path-3" d="M380 195 L123 172" /><circle className="network-pulse pulse-0" cx="380" cy="42" r="5" /><circle className="network-pulse pulse-1" cx="637" cy="172" r="5" /><circle className="network-pulse pulse-2" cx="380" cy="348" r="5" /><circle className="network-pulse pulse-3" cx="123" cy="172" r="5" /></svg>
-    <div className="team-center"><div className="director-mark"><UserRound /><span className="director-glint" /></div><span>YOU</span><small>direction + judgment</small></div>
-    {roles.map(([label, Icon], index) => <div className={'team-orbit orbit-' + index} key={label}><span className="agent-index">0{index + 1}</span><Icon /><span>{label}</span><small>digital agent</small></div>)}
-    <p className="team-caption"><span>Human-led system</span><b>Brief → work → review</b></p>
+  const lanes = [
+    ['Research', Search, ['Market signals', 'Source check', 'Competitive scan']],
+    ['Write', FileText, ['Client outline', 'Draft language', 'Q&A prep']],
+    ['Analyze', BrainCircuit, ['Scorecard', 'Scenario model', 'Data check']],
+    ['Build', Code2, ['Intake tool', 'Profile app', 'Workflow']],
+  ] as const;
+  return <div className={'team-visual command-desk' + (phase ? ' is-held' : '')} role="img" aria-label={phase ? 'A human director, a team workboard, and many completed digital assignments.' : 'A human director dispatching many assignments to a digital team.'}>
+    <section className="command-person"><p>Human director</p><div className="person-mark"><UserRound /></div><strong>Set the work.</strong><span>Set the guardrails.</span><span>Review the result.</span></section>
+    <div className="dispatch-bridge" aria-hidden="true"><span>Brief</span><i /><b /></div>
+    <section className="workboard"><header><div><span>Digital team</span><small>Many bounded assignments, one clear owner</small></div><p><i /> Working</p></header><div className="work-lanes">{lanes.map(([name, Icon, tasks], lane) => <article className={'work-lane lane-' + lane} key={name}><div className="lane-head"><Icon /><strong>{name}</strong><span>0{lane + 1}</span></div><div className="task-stack">{tasks.map((task, index) => <div className={'task-chip task-' + index} key={task}><i /><span>{task}</span><b>{index === 2 ? 'ready' : 'working'}</b></div>)}</div></article>)}</div><footer><span className="review-light" />Results return for human review <b>→</b></footer></section>
   </div>;
 }
 
