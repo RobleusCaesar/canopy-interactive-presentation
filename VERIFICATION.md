@@ -2,6 +2,9 @@
 - TypeScript check passed.
 - All 21 reveal states traversed at 1920×1080, 1366×768, and 390×844.
 - No horizontal overflow or browser runtime errors in those checks.
+- All desktop slide content fits above the controls. Animated slide 02 and the
+  brief builder, work tabs, permission gate, checkpoints, discovery and build
+  demonstrations were exercised in the browser.
 - Position survives refresh and keyboard navigation passed. Overview, sources,
   notes, and prompt drawers remain available from the presentation controls.
 - Desktop and mobile screenshots inspected; fixed-header navigation keeps the

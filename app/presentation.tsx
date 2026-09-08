@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Opening from './opening';
+import { AnswerStory, WorkGallery, ConnectionsScene, ReviewScene, BoundaryScene, DiscoveryScene, BuildScene } from './scenes';
 import { ArrowLeft, ArrowRight, Bot, BrainCircuit, BriefcaseBusiness, Building2, Check, ChevronRight, ClipboardCheck, Code2, Copy, ExternalLink, Eye, FileText, FolderOpen, Globe2, Link2, Monitor, Network, Search, ShieldCheck, Sparkles, Target, UserRound, UsersRound, Wrench } from 'lucide-react';
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
 import { agentParts, config, frames, profiles, prompts, sources, steps } from './content';
@@ -18,11 +19,6 @@ function PromptList() {
   return <div className="prompt-list">{prompts.map((prompt, index) => <article key={prompt}><p>{prompt}</p><button onClick={async () => { try { await navigator.clipboard.writeText(prompt); setCopied(index); } catch { setCopied(-2); } }}><Copy size={15} />{copied === index ? 'Copied' : 'Copy'}</button></article>)}{copied === -2 && <p role="status">Select the text to copy it manually.</p>}</div>;
 }
 
-function Spectrum({ phase }: { phase: number }) {
-  const levels = [['Chat', 'Ask', 'An answer'], ['Agent', 'Assign', 'A draft'], ['Software', 'Repeat', 'A tool']];
-  return <div className="spectrum">{levels.map(([name, verb, result], index) => <article className={phase === index ? 'selected' : phase > index ? 'past' : ''} key={name}><span className="level-number">0{index + 1}</span><strong>{name}</strong><div className="spectrum-verb">{phase >= index ? verb : '…'}</div><span>{phase >= index ? result : 'Next'}</span></article>)}<div className="spectrum-output" aria-live="polite"><Sparkles />{phase === 0 ? 'Clarify an expert bio.' : phase === 1 ? 'Draft, flag gaps, revise.' : 'Make the good workflow repeatable.'}</div></div>;
-}
-
 function AgentVisual({ phase }: { phase: number }) {
   const visible = Math.max(0, Math.min(phase, 5));
   const assembled = phase === 6;
@@ -35,47 +31,21 @@ function SystemProfiles() {
   return <div className="profiles"><div className="profile-rail" role="tablist" aria-label="System profiles">{profiles.map((item, index) => <button key={item.name} role="tab" aria-selected={selected === index} onClick={() => setSelected(index)}><span>0{index + 1}</span>{item.name}</button>)}</div><div className="profile-display"><p className="micro">Illustrative system profile · not a product screenshot</p><div className="profile-window"><div className="window-top"><span /><span /><span /></div><div className="window-main"><div className="profile-mark">{profile.name.slice(0, 1)}</div><div><p className="micro">{profile.role}</p><h2>{profile.name}</h2><p>{profile.use}</p></div><aside><span>Watch for</span><p>{profile.watch}</p></aside></div></div><p className="profile-foot"><Code2 /> Codex is the system used in the live build-and-use demo.</p></div></div>;
 }
 
-function WorkCards() {
-  const cards = [['Research', 'Find evidence', Search], ['Write', 'Shape a draft', FileText], ['Analyze', 'Compare options', BrainCircuit], ['Build', 'Reuse a workflow', Code2]] as const;
-  return <div className="work-cards">{cards.map(([label, action, Icon], index) => <article key={label}><span>0{index + 1}</span><Icon /><h2>{label}</h2><p>{action}</p></article>)}<div className="work-rule"><Eye /> Start where “good” is easy to see.</div></div>;
-}
-
-function Connections() {
-  return <div className="connections-visual"><div className="connection-center"><Network /><span>Agent</span></div><div className="connection-card data"><FolderOpen /><strong>Connected tools</strong><span>Files · calendar · CRM</span></div><div className="connection-card computer"><Monitor /><strong>Computer use</strong><span>A supported website or app</span></div><div className="connection-card person"><ShieldCheck /><strong>Your approval</strong><span>Change, commit, send</span></div><svg viewBox="0 0 900 500" aria-hidden="true"><path d="M450 230 L180 110 M450 230 L720 110 M450 260 L450 430" /></svg><p><b>MCP</b> is a common connection standard — not automatic permission.</p></div>;
-}
-
-function BriefReview({ phase, openExamples }: { phase: number; openExamples: (value: boolean) => void }) {
-  const review = phase === 1;
-  return <div className="brief-review"><div className="brief-card"><div className="brief-header"><FileText /> Assignment</div><h2>{review ? 'Five potential clients' : 'The brief'}</h2><div className="brief-lines"><span>Outcome</span><span>Context</span><span>Sources</span><span>Constraints</span><span>Done looks like</span></div></div><div className={'review-card ' + (review ? 'reviewed' : '')}><div className="brief-header"><ClipboardCheck /> {review ? 'Review' : 'Then'}</div><h2>{review ? 'Check the evidence.' : 'Let it work.'}</h2><div className="check-list">{['Source links', 'Uncertainties', 'Requested format'].map((item, index) => <p key={item}>{review ? <Check /> : <span>{index + 1}</span>}{item}</p>)}</div></div><div className="brief-actions"><p>{review ? 'The first answer is a starting point.' : 'Give the system a clear target.'}</p><button className="text-button" onClick={() => openExamples(true)}>Open prompt starters <ArrowRight /></button></div></div>;
-}
-
-function Boundaries() {
-  return <div className="boundaries-visual"><div className="boundary keep"><span>KEEP</span><h2>Judgment</h2><p>Decisions and final sign-off.</p></div><div className="boundary pause"><span>PAUSE</span><h2>Commitments</h2><p>Purchases, sending, changing.</p></div><div className="boundary check"><span>CHECK</span><h2>Claims</h2><p>Facts, math, sources.</p></div><div className="boundary note"><span>NOTICE</span><h2>Access</h2><p>Codes, sign-ins, secure tools.</p></div></div>;
-}
-
-function DiscoveryDemo() {
-  return <div className="demo-visual"><div className="demo-flow"><article><Search /><strong>Public signals</strong></article><ArrowRight /><article><BriefcaseBusiness /><strong>Possible fit</strong></article><ArrowRight /><article><ShieldCheck /><strong>Human review</strong></article></div><div className="sample-table"><span className="sample-label">Illustrative output · not live research</span><div><b>Company</b><b>Evidence</b><b>Uncertainty</b></div><div><span>Example Co</span><span>Public growth signal</span><span>Need not confirmed</span></div></div><p>Evidence of possible need ≠ buying intent.</p></div>;
-}
-
-function BuildDemo() {
-  return <div className="build-visual"><div className="build-step"><FolderOpen /><span>Sample inputs</span></div><ChevronRight /><div className="build-step focus"><Code2 /><span>Build together</span></div><ChevronRight /><div className="build-step"><ClipboardCheck /><span>Reviewable output</span></div><div className="codex-switch"><Bot /> Continue in Codex + voice</div></div>;
-}
-
 function Questions() {
   return <div className="questions-visual"><div><span>01</span><h2>What repeats?</h2></div><div><span>02</span><h2>What is good?</h2></div><div><span>03</span><h2>How will you review?</h2></div><p>Choose one bounded experiment.</p></div>;
 }
 
 function SlideContent({ step, phase, active, openExamples }: { step: number; phase: number; active: boolean; openExamples: (value: boolean) => void }) {
   if (step === 0) return <Opening phase={phase} active={active} />;
-  if (step === 1) return <Spectrum phase={phase} />;
+  if (step === 1) return <AnswerStory phase={phase} active={active} />;
   if (step === 2) return <AgentVisual phase={phase} />;
   if (step === 3) return <SystemProfiles />;
-  if (step === 4) return <WorkCards />;
-  if (step === 5) return <Connections />;
-  if (step === 6) return <BriefReview phase={phase} openExamples={openExamples} />;
-  if (step === 7) return <Boundaries />;
-  if (step === 8) return <DiscoveryDemo />;
-  if (step === 9) return <BuildDemo />;
+  if (step === 4) return <WorkGallery />;
+  if (step === 5) return <ConnectionsScene />;
+  if (step === 6) return <ReviewScene phase={phase} openExamples={openExamples} />;
+  if (step === 7) return <BoundaryScene />;
+  if (step === 8) return <DiscoveryScene />;
+  if (step === 9) return <BuildScene />;
   return <Questions />;
 }
 

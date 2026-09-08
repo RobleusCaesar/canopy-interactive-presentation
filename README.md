@@ -10,6 +10,10 @@ Edit app/globals.css for design tokens. Blank demo URLs intentionally hide the l
 Use Next/Back, arrow keys, Page Up/Page Down, Space, or ordinary scrolling.
 Overview revisits an idea and resets to the start. Notes are off by default.
 The opening scene loops quietly until the first Next holds the completed team for discussion.
+Slide 02 advances through animated chat, agent, and software examples; Replay
+restarts the current illustration. Try the brief builder, work-example tabs,
+permission gate, human checkpoints, discovery signal, and build illustration.
+These demonstrations use illustrative data and do not contact external services.
 Only the current reveal position is stored locally. No AI backend or analytics.
 
 ## Publish
