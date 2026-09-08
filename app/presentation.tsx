@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Opening from './opening';
+import AgentAssembly from './agent-assembly';
 import { AnswerStory, WorkGallery, ConnectionsScene, ReviewScene, BoundaryScene, DiscoveryScene, BuildScene } from './scenes';
 import { ArrowLeft, ArrowRight, Bot, BrainCircuit, BriefcaseBusiness, Building2, Check, ChevronRight, ClipboardCheck, Code2, Copy, ExternalLink, Eye, FileText, FolderOpen, Globe2, Link2, Monitor, Network, Search, ShieldCheck, Sparkles, Target, UserRound, UsersRound, Wrench } from 'lucide-react';
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
@@ -19,12 +20,6 @@ function PromptList() {
   return <div className="prompt-list">{prompts.map((prompt, index) => <article key={prompt}><p>{prompt}</p><button onClick={async () => { try { await navigator.clipboard.writeText(prompt); setCopied(index); } catch { setCopied(-2); } }}><Copy size={15} />{copied === index ? 'Copied' : 'Copy'}</button></article>)}{copied === -2 && <p role="status">Select the text to copy it manually.</p>}</div>;
 }
 
-function AgentVisual({ phase }: { phase: number }) {
-  const visible = Math.max(0, Math.min(phase, 5));
-  const assembled = phase === 6;
-  return <div className={'agent-visual ' + (assembled ? 'assembled' : '')}><div className="agent-stage"><div className="agent-core"><Bot /><span>{assembled ? 'WORK READY' : 'MODEL'}</span>{assembled && <Check />}</div>{agentParts.map(([name, detail], index) => { const Icon = icons[index]; return <div className={'agent-part part-' + index + (visible > index || assembled ? ' reveal' : '') + (visible - 1 === index ? ' active' : '')} key={name}><Icon /><strong>{name}</strong><small>{detail}</small></div>; })}<div className="orbit-loop"><span>plan</span><ChevronRight /><span>act</span><ChevronRight /><span>inspect</span><ChevronRight /><span>adjust</span></div></div><div className="agent-side"><p className="micro">{assembled ? 'All together' : phase === 0 ? 'Start here' : 'One useful component'}</p><h2>{assembled ? 'A result you can review.' : phase === 0 ? 'The model is only one piece.' : agentParts[visible - 1][1]}</h2><p>{assembled ? 'Finished work is not accepted work until you inspect it.' : 'Add this piece, and the system gets more useful.'}</p><div><ShieldCheck /> Human review stays with you</div></div></div>;
-}
-
 function SystemProfiles() {
   const [selected, setSelected] = useState(0);
   const profile = profiles[selected];
@@ -38,7 +33,7 @@ function Questions() {
 function SlideContent({ step, phase, active, openExamples }: { step: number; phase: number; active: boolean; openExamples: (value: boolean) => void }) {
   if (step === 0) return <Opening phase={phase} active={active} />;
   if (step === 1) return <AnswerStory phase={phase} active={active} />;
-  if (step === 2) return <AgentVisual phase={phase} />;
+  if (step === 2) return <AgentAssembly phase={phase} active={active} />;
   if (step === 3) return <SystemProfiles />;
   if (step === 4) return <WorkGallery />;
   if (step === 5) return <ConnectionsScene />;

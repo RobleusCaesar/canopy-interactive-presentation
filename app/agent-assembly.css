@@ -1,0 +1,29 @@
+.assembly-scene { width:min(1250px,100%); margin:auto; display:grid; grid-template-columns:minmax(0,1.65fr) minmax(250px,1fr); gap:45px; align-items:center; }
+.assembly-illustration { min-width:0; }
+.assembly-canvas { display:block; width:100%; height:auto; max-height:470px; overflow:visible; }
+.assembly-route.pending { opacity:.16; }
+.assembly-node.pending { opacity:.24; }
+.assembly-node.focused rect { stroke:#bf8b42; stroke-width:1.8; fill:#fff8ec; }
+.assembly-part-icon { stroke:#3c8796; stroke-width:1.4; }
+.assembly-node.focused .assembly-part-icon { stroke:#ab7b3d; }
+.assembly-center>svg { color:#e5f1f3; stroke-width:1.5; }
+.assembly-center>text { fill:white; font-size:22px; text-anchor:middle; }
+.assembly-cycle { display:flex; gap:12px; justify-content:center; align-items:center; color:#617f8d; font-size:12px; margin-top:6px; }
+.assembly-cycle span { color:#b7833d; }
+.assembly-caption .micro { color:#ac7936; font-size:11px; }
+.assembly-caption h2 { font-size:clamp(28px,3vw,46px); line-height:1.12; margin:20px 0 28px; max-width:400px; }
+.assembly-progress { display:flex; gap:8px; margin-bottom:30px; }
+.assembly-progress i { width:29px; height:4px; background:#dce7ec; border-radius:4px; }
+.assembly-progress .filled { background:#518d9e; }
+.assembly-review { display:flex; gap:10px; align-items:center; color:#547a6c; font-size:14px; }
+.assembly-review svg { width:20px; height:20px; flex:none; }
+@media(max-width:900px) { .assembly-scene { gap:20px; grid-template-columns:minmax(0,1.5fr) minmax(200px,1fr); }.assembly-caption h2 { font-size:30px; } }
+@media(max-width:650px) {
+  .assembly-scene { grid-template-columns:1fr; gap:15px; }
+  .assembly-caption { order:-1; }
+  .assembly-caption h2 { font-size:26px; margin:9px 0 12px; max-width:none; }
+  .assembly-progress { margin-bottom:12px; }
+  .assembly-review { font-size:12px; }
+  .assembly-caption .micro { font-size:10px; }
+  .assembly-cycle { font-size:10px; gap:9px; }
+}
