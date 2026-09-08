@@ -1,83 +1,94 @@
 'use client';
-import {useEffect, useRef, useState} from 'react';
-import {ArrowLeft, ArrowRight, Search, PenLine, ChartNoAxesCombined, Code2, Check, Layers, Target, FileText, Wrench, ShieldCheck, Link2, Monitor, CalendarDays, FolderOpen, List, Copy, ExternalLink} from 'lucide-react';
-import {Sheet,SheetTrigger,SheetContent,SheetHeader,SheetTitle,SheetDescription,SheetClose} from '@/components/ui/sheet';
-import {Tabs,TabsList,TabsTrigger,TabsContent} from '@/components/ui/tabs';
-import {config,steps,frames,layers,prompts,categories,sources} from './content';
 
-const roleIcons=[Search,PenLine,ChartNoAxesCombined,Code2];
-const layerIcons=[Target,FileText,FolderOpen,Wrench,ShieldCheck];
-const safeLink=(value:string)=>{try{const u=new URL(value);return ['https:','http:'].includes(u.protocol)?u.href:null}catch{return null}};
-function Drawer({label,title,description,children,onToggle}:{label:string;title:string;description:string;children:React.ReactNode;onToggle:(v:boolean)=>void}){
- return <Sheet onOpenChange={onToggle}><SheetTrigger className="utility">{label}</SheetTrigger><SheetContent className="drawer"><SheetHeader><SheetTitle>{title}</SheetTitle><SheetDescription>{description}</SheetDescription></SheetHeader><div className="drawer-body">{children}</div></SheetContent></Sheet>;
-}
-function PromptList(){const [copied,setCopied]=useState(-1);return <div className="prompt-list">{prompts.map((p,i)=><div key={p}><p>{p}</p><button className="copy-button" onClick={async()=>{try{await navigator.clipboard.writeText(p);setCopied(i)}catch{setCopied(-2)}}}><Copy size={16}/>{copied===i?'Copied':'Copy'}</button></div>)}{copied===-2&&<p role="status">Select the prompt text and copy it manually.</p>}</div>}
-function ProductSystems(){
- const [product,setProduct]=useState('ChatGPT');
- return <div className="systems">
-  <div className="product-grid">{[['ChatGPT','Conversation, files, and supported tools.'],['Claude','Content and interactive artifacts.'],['Grok Bot','Focused Bots, tools, and a computer.'],['OpenClaw','An open agent gateway. Setup matters.']].map(([name,text])=><article key={name}><h3>{name}</h3><p>{text}</p></article>)}</div>
-  <Tabs value={product} onValueChange={v=>setProduct(String(v))} className="schematic">
-   <div className="schematic-top"><TabsList className="product-toggle" aria-label="Interface example">{['ChatGPT','Grok Bot'].map(p=><TabsTrigger key={p} value={p}>{p}</TabsTrigger>)}</TabsList><span>Illustrative schematic · not a screenshot</span></div>
-   <TabsContent value={product} className="schematic-inner"><aside>{product==='Grok Bot'?<><strong>Focused team</strong><span className="selected">Research Bot</span><span>Writing Bot</span><span>Analysis Bot</span></>:<><strong>Work context</strong><span className="selected">Client research</span><span>Supplied files</span><span>Review criteria</span></>}</aside><div className="conversation"><div className="brief-bubble">Find five possible client companies. Show evidence and uncertainty.</div><div className="result-bubble"><span className="status-dot"/>Research table ready for review</div><div className="annotations"><span>01 · Clear assignment</span><span>02 · Relevant context</span><span>03 · Reviewable output</span></div></div></TabsContent>
-  </Tabs><p className="small-note"><strong>Live demo: Codex</strong> — our coding agent. Features and access vary by product, plan, and setup.</p>
- </div>
-}
-function Agent({phase,active}:{phase:number;active:boolean}){
- const selected=phase-1, exploded=phase>0&&phase<6;
- return <div className={'agent-demo '+(exploded?'exploded ':'')+(active?'settled':'')}>
-  <div className="agent-object" aria-label={phase===6?'Components assembled into completed work':'Five components around a capable model'}>
-   <div className="model-core"><Layers/><span>{phase===6?'Completed work':'Capable model'}</span>{phase===6&&<Check/>}</div>
-   <div className="layer-stack">{layers.map(([label],i)=>{const Icon=layerIcons[i];return <div key={label} className={'agent-layer '+(selected===i?'selected':'')} style={{'--layer':i} as React.CSSProperties}><Icon/><span>{label}</span><span className="layer-number">0{i+1}</span></div>})}</div>
-  </div>
-  <div className="agent-explanation" aria-live={active?'polite':'off'}>
-   <p className="eyebrow">{phase===0?'A system for doing work':phase===6?'Bring it together':'Component 0'+phase+' / 05'}</p>
-   <h3>{phase===0?'More than a model.':phase===6?'A result you can review.':layers[selected][1]}</h3>
-   <p>{phase===0?'Give it a goal, instructions, knowledge, tools, and review.':phase===6?'The components work together. You decide when the job is done.':layers[selected][2]}</p>
-   <div className="agent-loop">Plan <span>→</span> Act <span>→</span> Inspect <span>→</span> Adjust <span>↺</span></div>
-   <div className="human-review"><ShieldCheck/> Human review stays with you</div>
-  </div>
- </div>
-}
-function SlideContent({step,phase,active,openExamples}:{step:number;phase:number;active:boolean;openExamples:(v:boolean)=>void}){
- if(step===0)return <div className="opening"><div><p className="lead">Choose valuable work.<br/>Assign it clearly.<br/>Review the result.<br/>Improve it until it is ready.</p><p className="opening-note">An AI conversation for Canopy Advisory Group</p></div><div className="team"><div className="manager"><span>You</span><small>Direction & judgment</small></div><div className="team-connector"/><div className="roles">{['Research','Writing','Analysis','Building'].map((role,i)=>{const Icon=roleIcons[i];return <div className="role" key={role}><Icon/><h3>{role}</h3><span className="role-status"><i/>Ready for a brief</span></div>})}</div></div><div className="session-strip"><span><b>20</b> Overview</span><span><b>10</b> Discovery</span><span><b>40</b> Build + use</span><span><b>20</b> Q&A <small>minutes</small></span></div></div>;
- if(step===1)return <div className="levels">{[['Chat','Explain what belongs in an expert bio.','An answer'],['Agent','Use supplied notes and a résumé. Draft a bio, flag gaps, and revise.','A deliverable'],['Coding agent','Build a small interface that makes the workflow repeatable.','A reusable tool']].map(([title,text,result],i)=>{const Icon=roleIcons[i===0?1:i===1?0:3];return <article key={title} className={phase===i?'current':phase>i?'complete':'muted'}><span className="big-number">0{i+1}</span><Icon/><h3>{title}</h3><p>{phase>=i?text:'Same consulting example. Next level of delegation.'}</p><span className="outcome">{phase>=i?result:'Continue to reveal'}</span></article>})}</div>;
- if(step===2)return <Agent phase={phase} active={active}/>;
- if(step===3)return <ProductSystems/>;
- if(step===4)return <div className="task-grid">{categories.map(([name,detail],i)=>{const Icon=[Search,PenLine,ChartNoAxesCombined,CalendarDays,Layers,Code2][i];return <details key={name}><summary><Icon/><h3>{name}</h3><span>+</span></summary><p>{detail}</p></details>})}<p className="small-note">Choose a bounded task with a result you can inspect.</p></div>;
- if(step===5)return <div className="connections"><div className="connection-origin"><Layers/><strong>Agent</strong></div><div className="connection-paths"><div className="connection-path"><Link2/><div><h3>Connected tools</h3><p>Authorized information or actions.</p></div><span>→</span><div className="destinations"><FolderOpen/><CalendarDays/><span>CRM</span></div></div><div className="connection-path"><Monitor/><div><h3>Computer use</h3><p>Work through a supported interface.</p></div><span>→</span><div className="destinations"><span>Website / app</span></div></div></div><p className="mcp"><b>MCP</b> Model Context Protocol: a common standard for connecting AI applications to external tools and information.</p><p className="small-note">Access to information ≠ permission to change it.</p></div>;
- if(step===6)return <div className="briefing"><div className="brief-fields">{['Outcome','Context','Sources','Constraints','Definition of done'].map((name,i)=><div key={name}><span>0{i+1}</span>{name}</div>)}</div><blockquote>{prompts[0]}</blockquote><div className="voice-note"><span>Say it in your own words.</span><span>Use a screenshot for context.</span></div><button className="text-button" onClick={()=>openExamples(true)}>Open example prompts <ArrowRight/></button></div>;
- if(step===7)return <div className="iteration"><p className="qualification">Presenter’s rule of thumb—not an accuracy statistic.</p><div className="revision-tabs">{['Initial draft','Specific feedback','Reviewed result'].map((v,i)=><span key={v} className={phase===i?'selected':''}>0{i+1} · {v}</span>)}</div><div className="revision-sheet"><span className="sample-label">Illustrative example · fictional company</span><h3>{phase===0?'A promising prospect':phase===1?'Make the evidence reviewable':'A qualified hypothesis'}</h3>{phase===0?<div className="review-rows"><p><span className="issue">Missing source</span> “Example Co is expanding.”</p><p><span className="issue">Vague claim</span> “A perfect fit.”</p><p><span className="issue">Wrong format</span> A paragraph instead of a table.</p></div>:phase===1?<div className="review-rows"><p><span className="fix">Evidence</span> Open the source. Confirm what it actually says.</p><p><span className="fix">Specificity</span> Separate a possible need from buying intent.</p><p><span className="fix">Format</span> Return the requested columns and uncertainties.</p></div>:<div className="review-rows"><p><Check/> Evidence checked against the source.</p><p><Check/> Possible need stated; buying intent unknown.</p><p><Check/> Table includes source, date, and uncertainty.</p></div>}</div><div className="operating-loop">{['Assign','Allow time','Review','Feedback','Refine','Accept'].map((s,i)=><span key={s}>{s}{i<5&&<b>→</b>}</span>)}</div></div>;
- if(step===8)return <div className="boundaries"><div><span>01</span><p>Sign-ins, codes, CAPTCHAs, and secure environments can need you.</p></div><div><span>02</span><p>Purchases and commitments need explicit authorization.</p></div><div><span>03</span><p>Plausible writing can hide invented facts or faulty calculations.</p></div><div><span>04</span><p>Missing context or the wrong tools can make polished work unusable.</p></div><p className="takeaway">Start with one recurring task. Define good. Review the result. Measure time saved.</p></div>;
- if(step===9)return <div className="demo-content"><div className="three-stages"><article><Search/><h3>Public-web research</h3></article><span>→</span><article><List/><h3>Potential-client table</h3></article><span>→</span><article><ShieldCheck/><h3>Human review</h3></article></div><p className="lead">Public signals suggest possible fit.<br/>They do not prove buying intent.</p><details className="fallback"><summary>View sample table structure</summary><p>Fictional fallback — no live research or outreach.</p><div className="table-scroll"><table><thead><tr>{['Company','Evidence of possible need','Relevant service','Source URL','Research date','Uncertainty'].map(t=><th key={t}>{t}</th>)}</tr></thead><tbody><tr><td>Example Co (fictional)</td><td>A sample growth announcement</td><td>Operations support</td><td>Not applicable — fictional</td><td>Not researched</td><td>Needs and buying intent unconfirmed</td></tr></tbody></table></div></details>{safeLink(config.discoveryUrl)&&<a className="primary-link" href={safeLink(config.discoveryUrl)!} target="_blank" rel="noreferrer">Open discovery demo <ExternalLink/></a>}</div>;
- if(step===10)return <div className="demo-content"><div className="three-stages"><article><FolderOpen/><h3>Sample inputs</h3></article><span>→</span><article><Code2/><h3>Profile-builder app</h3></article><span>→</span><article><ShieldCheck/><h3>Reviewable output</h3></article></div><p className="lead">One demonstration: build the software,<br/>then use it to create a profile.</p><div className="demo-switch">Continue in Codex + voice <ArrowRight/></div><p className="small-note">Sample data only. We will define the workflow together.</p>{safeLink(config.sampleAppUrl)&&<a className="primary-link" href={safeLink(config.sampleAppUrl)!} target="_blank" rel="noreferrer">Try the sample app <ExternalLink/></a>}</div>;
- return <div className="questions"><div><span>01</span><h3>What repeats?</h3></div><div><span>02</span><h3>What does good look like?</h3></div><div><span>03</span><h3>How will you review it?</h3></div><button className="text-button" onClick={()=>openExamples(true)}>Take an assignment prompt with you <ArrowRight/></button></div>;
-}
-export default function Presentation(){
- const [active,setActive]=useState(0),[notes,setNotes]=useState(false),[drawer,setDrawer]=useState(false),[examples,setExamples]=useState(false);
- const refs=useRef<(HTMLElement|null)[]>([]), ready=useRef(false),current=useRef(0);
- const go=(i:number)=>{const target=Math.max(0,Math.min(frames.length-1,i));setActive(target);current.current=target;refs.current[target]?.scrollIntoView({behavior:'instant',block:'start'});try{localStorage.setItem('canopy-presentation-v1',String(target))}catch{}};
- useEffect(()=>{
-  let saved=0;try{saved=Number(localStorage.getItem('canopy-presentation-v1'))||0}catch{}
-  requestAnimationFrame(()=>{go(Number.isInteger(saved)?saved:0);ready.current=true});
-  let ticking=false;
-  const scroll=()=>{if(ticking||!ready.current)return;ticking=true;requestAnimationFrame(()=>{const probe=window.innerHeight*.38;let best=0,distance=Infinity;refs.current.forEach((el,i)=>{if(!el)return;const r=el.getBoundingClientRect();const d=r.top<=probe&&r.bottom>probe?0:Math.min(Math.abs(r.top-probe),Math.abs(r.bottom-probe));if(d<distance){distance=d;best=i}});current.current=best;setActive(best);try{localStorage.setItem('canopy-presentation-v1',String(best))}catch{}ticking=false})};
-  window.addEventListener('scroll',scroll,{passive:true});return()=>window.removeEventListener('scroll',scroll);
- },[]);
- useEffect(()=>{const key=(e:KeyboardEvent)=>{if(drawer||examples)return;const target=e.target as HTMLElement;if(target.closest('button,a,input,textarea,select,summary,[contenteditable="true"],[role="dialog"]'))return;if(['ArrowRight','ArrowDown','PageDown',' ','ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(current.current+(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)?-1:1))}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[drawer,examples]);
- const {step,phase}=frames[active];
- return <>
-  <a href="#presentation" className="skip-link">Skip to presentation</a>
-  <header className="site-header"><img src="./canopy-logo.svg" alt="Canopy Advisory Group" width="202" height="52"/><span className="header-topic">Your digital team</span><nav aria-label="Presentation tools">
-   <Drawer label="Overview" title="Return to an idea" description="20 minutes overview · 10 discovery · 40 build and use · 20 Q&A" onToggle={setDrawer}>{steps.map((s,i)=><SheetClose className="index-item" key={s.short} onClick={()=>go(frames.findIndex(f=>f.step===i))}><span>{String(i+1).padStart(2,'0')}</span>{s.short}<small>{s.time}</small></SheetClose>)}<SheetClose className="text-button" onClick={()=>go(0)}>Reset to start <ArrowRight/></SheetClose></Drawer>
-   <Drawer label="Sources" title="Sources & context" description={'Official sources checked '+config.verified+'.'} onToggle={setDrawer}>{sources.map(([label,url])=><a key={url} className="source-link" href={url} target="_blank" rel="noreferrer">{label}<ExternalLink size={18}/></a>)}<p>Product access varies by plan, product, and setup. Interfaces shown here are generic schematics. Session date: {config.sessionDate}.</p></Drawer>
-   <button className={'utility '+(notes?'on':'')} aria-pressed={notes} onClick={()=>setNotes(!notes)}>Notes</button>
-  </nav></header>
-  <main id="presentation" tabIndex={-1}>{frames.map((f,i)=><section ref={el=>{refs.current[i]=el}} key={i} className={'slide slide-'+f.step+(active===i?' active':'')} aria-label={steps[f.step].short+(f.step===2?' · state '+(f.phase+1):'')} data-frame={i} data-step={f.step} data-phase={f.phase}><div className="slide-heading"><p className="eyebrow">{f.step<9?'Working with AI':f.step===11?'Questions & application':'Live demonstration'}<span>{String(f.step+1).padStart(2,'0')} / 12</span></p><h1>{steps[f.step].title}</h1></div><SlideContent step={f.step} phase={f.phase} active={active===i} openExamples={setExamples}/></section>)}</main>
-  {notes&&<aside className="presenter-notes" aria-label="Presenter notes"><strong>{steps[step].short} · {steps[step].time}</strong><p>{steps[step].notes}</p><button onClick={()=>setNotes(false)} aria-label="Close presenter notes">×</button></aside>}
-  <footer className="controls"><div className="progress-copy"><b>{String(step+1).padStart(2,'0')} <span>/ 12</span></b><span>{steps[step].short}{[1,2,7].includes(step)&&<small> · {phase+1}/{step===2?7:3}</small>}</span></div><div className="progress-track" aria-hidden="true"><div style={{width:((active+1)/frames.length*100)+'%'}}/></div><div className="nav-buttons"><button aria-label="Previous presentation state" disabled={active===0} onClick={()=>go(active-1)}><ArrowLeft/><span>Back</span></button><button className="next" aria-label="Next presentation state" disabled={active===frames.length-1} onClick={()=>go(active+1)}><span>Next</span><ArrowRight/></button></div></footer>
-  <Sheet open={examples} onOpenChange={setExamples}><SheetContent className="drawer"><SheetHeader><SheetTitle>Brief it like a colleague</SheetTitle><SheetDescription>Copy a starting point and adapt it to the work.</SheetDescription></SheetHeader><div className="drawer-body"><PromptList/></div></SheetContent></Sheet>
-  <div className="sr-only" aria-live="polite">{steps[step].short}, step {step+1} of 12.</div>
- </>;
+import { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, ArrowRight, Bot, BrainCircuit, BriefcaseBusiness, Check, ChevronRight, ClipboardCheck, Code2, Copy, ExternalLink, Eye, FileText, FolderOpen, Link2, Monitor, Network, Search, ShieldCheck, Sparkles, Target, Wrench } from 'lucide-react';
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
+import { agentParts, config, frames, profiles, prompts, sources, steps } from './content';
+
+const icons = [Target, FileText, FolderOpen, Wrench, ClipboardCheck];
+const safeLink = (value: string) => { try { const url = new URL(value); return ['https:', 'http:'].includes(url.protocol) ? url.href : null; } catch { return null; } };
+
+function Drawer({ label, title, description, children, onChange }: { label: string; title: string; description: string; children: React.ReactNode; onChange: (open: boolean) => void }) {
+  return <Sheet onOpenChange={onChange}><SheetTrigger className="utility">{label}</SheetTrigger><SheetContent className="drawer"><SheetHeader><SheetTitle>{title}</SheetTitle><SheetDescription>{description}</SheetDescription></SheetHeader><div className="drawer-body">{children}</div></SheetContent></Sheet>;
 }
 
+function PromptList() {
+  const [copied, setCopied] = useState(-1);
+  return <div className="prompt-list">{prompts.map((prompt, index) => <article key={prompt}><p>{prompt}</p><button onClick={async () => { try { await navigator.clipboard.writeText(prompt); setCopied(index); } catch { setCopied(-2); } }}><Copy size={15} />{copied === index ? 'Copied' : 'Copy'}</button></article>)}{copied === -2 && <p role="status">Select the text to copy it manually.</p>}</div>;
+}
 
+function TeamVisual() {
+  const roles = [['Research', Search], ['Write', FileText], ['Analyze', BrainCircuit], ['Build', Code2]] as const;
+  return <div className="team-visual"><div className="team-center"><span>YOU</span><small>direction + judgment</small></div>{roles.map(([label, Icon], index) => <div className={'team-orbit orbit-' + index} key={label}><Icon /><span>{label}</span></div>)}<svg viewBox="0 0 600 390" aria-hidden="true"><circle cx="300" cy="195" r="125" /><circle cx="300" cy="195" r="188" /></svg></div>;
+}
+
+function Spectrum({ phase }: { phase: number }) {
+  const levels = [['Chat', 'Ask', 'An answer'], ['Agent', 'Assign', 'A draft'], ['Software', 'Repeat', 'A tool']];
+  return <div className="spectrum">{levels.map(([name, verb, result], index) => <article className={phase === index ? 'selected' : phase > index ? 'past' : ''} key={name}><span className="level-number">0{index + 1}</span><strong>{name}</strong><div className="spectrum-verb">{phase >= index ? verb : '…'}</div><span>{phase >= index ? result : 'Next'}</span></article>)}<div className="spectrum-output" aria-live="polite"><Sparkles />{phase === 0 ? 'Clarify an expert bio.' : phase === 1 ? 'Draft, flag gaps, revise.' : 'Make the good workflow repeatable.'}</div></div>;
+}
+
+function AgentVisual({ phase }: { phase: number }) {
+  const visible = Math.max(0, Math.min(phase, 5));
+  const assembled = phase === 6;
+  return <div className={'agent-visual ' + (assembled ? 'assembled' : '')}><div className="agent-stage"><div className="agent-core"><Bot /><span>{assembled ? 'WORK READY' : 'MODEL'}</span>{assembled && <Check />}</div>{agentParts.map(([name, detail], index) => { const Icon = icons[index]; return <div className={'agent-part part-' + index + (visible > index || assembled ? ' reveal' : '') + (visible - 1 === index ? ' active' : '')} key={name}><Icon /><strong>{name}</strong><small>{detail}</small></div>; })}<div className="orbit-loop"><span>plan</span><ChevronRight /><span>act</span><ChevronRight /><span>inspect</span><ChevronRight /><span>adjust</span></div></div><div className="agent-side"><p className="micro">{assembled ? 'All together' : phase === 0 ? 'Start here' : 'One useful component'}</p><h2>{assembled ? 'A result you can review.' : phase === 0 ? 'The model is only one piece.' : agentParts[visible - 1][1]}</h2><p>{assembled ? 'Finished work is not accepted work until you inspect it.' : 'Add this piece, and the system gets more useful.'}</p><div><ShieldCheck /> Human review stays with you</div></div></div>;
+}
+
+function SystemProfiles() {
+  const [selected, setSelected] = useState(0);
+  const profile = profiles[selected];
+  return <div className="profiles"><div className="profile-rail" role="tablist" aria-label="System profiles">{profiles.map((item, index) => <button key={item.name} role="tab" aria-selected={selected === index} onClick={() => setSelected(index)}><span>0{index + 1}</span>{item.name}</button>)}</div><div className="profile-display"><p className="micro">Illustrative system profile · not a product screenshot</p><div className="profile-window"><div className="window-top"><span /><span /><span /></div><div className="window-main"><div className="profile-mark">{profile.name.slice(0, 1)}</div><div><p className="micro">{profile.role}</p><h2>{profile.name}</h2><p>{profile.use}</p></div><aside><span>Watch for</span><p>{profile.watch}</p></aside></div></div><p className="profile-foot"><Code2 /> Codex is the system used in the live build-and-use demo.</p></div></div>;
+}
+
+function WorkCards() {
+  const cards = [['Research', 'Find evidence', Search], ['Write', 'Shape a draft', FileText], ['Analyze', 'Compare options', BrainCircuit], ['Build', 'Reuse a workflow', Code2]] as const;
+  return <div className="work-cards">{cards.map(([label, action, Icon], index) => <article key={label}><span>0{index + 1}</span><Icon /><h2>{label}</h2><p>{action}</p></article>)}<div className="work-rule"><Eye /> Start where “good” is easy to see.</div></div>;
+}
+
+function Connections() {
+  return <div className="connections-visual"><div className="connection-center"><Network /><span>Agent</span></div><div className="connection-card data"><FolderOpen /><strong>Connected tools</strong><span>Files · calendar · CRM</span></div><div className="connection-card computer"><Monitor /><strong>Computer use</strong><span>A supported website or app</span></div><div className="connection-card person"><ShieldCheck /><strong>Your approval</strong><span>Change, commit, send</span></div><svg viewBox="0 0 900 500" aria-hidden="true"><path d="M450 230 L180 110 M450 230 L720 110 M450 260 L450 430" /></svg><p><b>MCP</b> is a common connection standard — not automatic permission.</p></div>;
+}
+
+function BriefReview({ phase, openExamples }: { phase: number; openExamples: (value: boolean) => void }) {
+  const review = phase === 1;
+  return <div className="brief-review"><div className="brief-card"><div className="brief-header"><FileText /> Assignment</div><h2>{review ? 'Five potential clients' : 'The brief'}</h2><div className="brief-lines"><span>Outcome</span><span>Context</span><span>Sources</span><span>Constraints</span><span>Done looks like</span></div></div><div className={'review-card ' + (review ? 'reviewed' : '')}><div className="brief-header"><ClipboardCheck /> {review ? 'Review' : 'Then'}</div><h2>{review ? 'Check the evidence.' : 'Let it work.'}</h2><div className="check-list">{['Source links', 'Uncertainties', 'Requested format'].map((item, index) => <p key={item}>{review ? <Check /> : <span>{index + 1}</span>}{item}</p>)}</div></div><div className="brief-actions"><p>{review ? 'The first answer is a starting point.' : 'Give the system a clear target.'}</p><button className="text-button" onClick={() => openExamples(true)}>Open prompt starters <ArrowRight /></button></div></div>;
+}
+
+function Boundaries() {
+  return <div className="boundaries-visual"><div className="boundary keep"><span>KEEP</span><h2>Judgment</h2><p>Decisions and final sign-off.</p></div><div className="boundary pause"><span>PAUSE</span><h2>Commitments</h2><p>Purchases, sending, changing.</p></div><div className="boundary check"><span>CHECK</span><h2>Claims</h2><p>Facts, math, sources.</p></div><div className="boundary note"><span>NOTICE</span><h2>Access</h2><p>Codes, sign-ins, secure tools.</p></div></div>;
+}
+
+function DiscoveryDemo() {
+  return <div className="demo-visual"><div className="demo-flow"><article><Search /><strong>Public signals</strong></article><ArrowRight /><article><BriefcaseBusiness /><strong>Possible fit</strong></article><ArrowRight /><article><ShieldCheck /><strong>Human review</strong></article></div><div className="sample-table"><span className="sample-label">Illustrative output · not live research</span><div><b>Company</b><b>Evidence</b><b>Uncertainty</b></div><div><span>Example Co</span><span>Public growth signal</span><span>Need not confirmed</span></div></div><p>Evidence of possible need ≠ buying intent.</p></div>;
+}
+
+function BuildDemo() {
+  return <div className="build-visual"><div className="build-step"><FolderOpen /><span>Sample inputs</span></div><ChevronRight /><div className="build-step focus"><Code2 /><span>Build together</span></div><ChevronRight /><div className="build-step"><ClipboardCheck /><span>Reviewable output</span></div><div className="codex-switch"><Bot /> Continue in Codex + voice</div></div>;
+}
+
+function Questions() {
+  return <div className="questions-visual"><div><span>01</span><h2>What repeats?</h2></div><div><span>02</span><h2>What is good?</h2></div><div><span>03</span><h2>How will you review?</h2></div><p>Choose one bounded experiment.</p></div>;
+}
+
+function SlideContent({ step, phase, openExamples }: { step: number; phase: number; openExamples: (value: boolean) => void }) {
+  if (step === 0) return <TeamVisual />;
+  if (step === 1) return <Spectrum phase={phase} />;
+  if (step === 2) return <AgentVisual phase={phase} />;
+  if (step === 3) return <SystemProfiles />;
+  if (step === 4) return <WorkCards />;
+  if (step === 5) return <Connections />;
+  if (step === 6) return <BriefReview phase={phase} openExamples={openExamples} />;
+  if (step === 7) return <Boundaries />;
+  if (step === 8) return <DiscoveryDemo />;
+  if (step === 9) return <BuildDemo />;
+  return <Questions />;
+}
+
+export default function Presentation() {
+  const [active, setActive] = useState(0); const [notes, setNotes] = useState(false); const [drawerOpen, setDrawerOpen] = useState(false); const [examples, setExamples] = useState(false);
+  const refs = useRef<(HTMLElement | null)[]>([]); const ready = useRef(false); const current = useRef(0);
+  const go = (index: number) => { const target = Math.max(0, Math.min(frames.length - 1, index)); setActive(target); current.current = target; const screen = refs.current[target]; const header = document.querySelector('.site-header'); if (screen) window.scrollTo({ top: screen.getBoundingClientRect().top + window.scrollY - (header?.clientHeight ?? 0), behavior: 'instant' }); try { localStorage.setItem('canopy-presentation-v2', String(target)); } catch {} };
+  useEffect(() => { let saved = 0; try { saved = Number(localStorage.getItem('canopy-presentation-v2')) || 0; } catch {} requestAnimationFrame(() => { go(saved); ready.current = true; }); let ticking = false; const scroll = () => { if (ticking || !ready.current) return; ticking = true; requestAnimationFrame(() => { const probe = innerHeight * .45; let best = 0; let distance = Infinity; refs.current.forEach((element, index) => { if (!element) return; const rect = element.getBoundingClientRect(); const delta = rect.top <= probe && rect.bottom > probe ? 0 : Math.min(Math.abs(rect.top - probe), Math.abs(rect.bottom - probe)); if (delta < distance) { distance = delta; best = index; } }); setActive(best); current.current = best; try { localStorage.setItem('canopy-presentation-v2', String(best)); } catch {} ticking = false; }); }; addEventListener('scroll', scroll, { passive: true }); return () => removeEventListener('scroll', scroll); }, []);
+  useEffect(() => { const keys = (event: KeyboardEvent) => { if (drawerOpen || examples) return; const element = event.target as HTMLElement; if (element.closest('button,a,input,textarea,select,summary,[role="dialog"]')) return; const back = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key); if (back || ['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); go(current.current + (back ? -1 : 1)); } }; addEventListener('keydown', keys); return () => removeEventListener('keydown', keys); }, [drawerOpen, examples]);
+  const { step, phase } = frames[active];
+  return <><a href="#presentation" className="skip-link">Skip to presentation</a><header className="site-header"><img src="./canopy-logo.svg" alt="Canopy Advisory Group" width="202" height="52" /><span className="header-topic">Digital team</span><nav aria-label="Presentation tools"><Drawer label="Overview" title="Jump to an idea" description="Return to any point in the conversation." onChange={setDrawerOpen}>{steps.map((item, index) => <SheetClose className="index-item" key={item.short} onClick={() => go(frames.findIndex(frame => frame.step === index))}><span>{String(index + 1).padStart(2, '0')}</span>{item.short}<small>{item.time}</small></SheetClose>)}<SheetClose className="text-button" onClick={() => go(0)}>Start again <ArrowRight /></SheetClose></Drawer><Drawer label="Sources" title="Sources & context" description={'Official sources checked ' + config.verified + '.'} onChange={setDrawerOpen}>{sources.map(([label, url]) => <a key={url} className="source-link" href={url} target="_blank" rel="noreferrer">{label}<ExternalLink size={17} /></a>)}<p>Profiles are simplified visual summaries. Features and access vary by plan, product, and setup.</p></Drawer><button className={'utility ' + (notes ? 'on' : '')} aria-pressed={notes} onClick={() => setNotes(!notes)}>Notes</button></nav></header><main id="presentation" tabIndex={-1}>{frames.map((frame, index) => <section ref={element => { refs.current[index] = element; }} className={'slide slide-' + frame.step + (active === index ? ' active' : '')} key={index} data-frame={index} data-step={frame.step}><div className="slide-heading"><p className="eyebrow">{frame.step < 8 ? 'Working with AI' : frame.step === 10 ? 'Discussion' : 'Live demonstration'}<span>{String(frame.step + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}</span></p><h1>{steps[frame.step].title}</h1><p className="speaker-cue"><Sparkles /> {steps[frame.step].cue}</p></div><SlideContent step={frame.step} phase={frame.phase} openExamples={setExamples} /></section>)}</main>{notes && <aside className="presenter-notes" aria-label="Presenter notes"><strong>{steps[step].short} · {steps[step].time}</strong><p>{steps[step].notes}</p><button onClick={() => setNotes(false)} aria-label="Close presenter notes">×</button></aside>}<footer className="controls"><div className="progress-copy"><b>{String(step + 1).padStart(2, '0')}<span> / {String(steps.length).padStart(2, '0')}</span></b><span>{steps[step].short}{[1, 2, 6].includes(step) && <small> · reveal {phase + 1}</small>}</span></div><div className="progress-track" aria-hidden="true"><div style={{ width: ((active + 1) / frames.length * 100) + '%' }} /></div><div className="nav-buttons"><button aria-label="Previous presentation state" disabled={active === 0} onClick={() => go(active - 1)}><ArrowLeft /><span>Back</span></button><button className="next" aria-label="Next presentation state" disabled={active === frames.length - 1} onClick={() => go(active + 1)}><span>Next</span><ArrowRight /></button></div></footer><Sheet open={examples} onOpenChange={setExamples}><SheetContent className="drawer"><SheetHeader><SheetTitle>Prompt starters</SheetTitle><SheetDescription>Use these to create a clearer assignment.</SheetDescription></SheetHeader><div className="drawer-body"><PromptList /></div></SheetContent></Sheet><div className="sr-only" aria-live="polite">{steps[step].short}, screen {step + 1} of {steps.length}.</div></>;
+}
