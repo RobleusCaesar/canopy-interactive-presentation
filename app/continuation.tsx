@@ -80,20 +80,20 @@ export function SystemProfiles({active}:Active) {
 }
 
 const jobs = [
-  {name:'Research',verb:'Find evidence',agent:'Sara',Icon:Search,inputs:['Sources','Questions','Context'],output:'Evidence brief',review:'Can you trace each claim to a source?'},
-  {name:'Write',verb:'Shape a draft',agent:'Maya',Icon:FileText,inputs:['Notes','Audience','Purpose'],output:'First draft',review:'Does it sound like you and fit the purpose?'},
-  {name:'Analyze',verb:'Compare options',agent:'Alex',Icon:Target,inputs:['Data','Criteria','Question'],output:'Comparison',review:'Do the numbers and assumptions hold up?'},
-  {name:'Build',verb:'Reuse a workflow',agent:'Theo',Icon:Code2,inputs:['Inputs','Rules','Outcome'],output:'Reusable tool',review:'Does it work with a real example?'},
+  {name:'Research',verb:'Find evidence',Icon:Search,inputs:['Sources','Questions','Context'],output:'Evidence brief',review:'Can you trace each claim to a source?'},
+  {name:'Write',verb:'Shape a draft',Icon:FileText,inputs:['Notes','Audience','Purpose'],output:'First draft',review:'Does it sound like you and fit the purpose?'},
+  {name:'Analyze',verb:'Compare options',Icon:Target,inputs:['Data','Criteria','Question'],output:'Comparison',review:'Do the numbers and assumptions hold up?'},
+  {name:'Build',verb:'Reuse a workflow',Icon:Code2,inputs:['Inputs','Rules','Outcome'],output:'Reusable tool',review:'Does it work with a real example?'},
 ];
 export function WorkGallery({active}:Active) {
   const [chosen,setChosen]=useState(0),job=jobs[chosen];
   return <div className="flow-layout work-story">
     <aside className="flow-caption work-selector"><p className="micro">One assignment. Something useful.</p><div className="choice-list" aria-label="Examples of agent work">{jobs.map(({name,verb,Icon},i)=><button key={name} aria-pressed={chosen===i} onClick={()=>setChosen(i)}><Icon/><span><b>{name}</b><small>{verb}</small></span><ArrowRight/></button>)}</div><Note>{job.review}</Note></aside>
-    <Figure active={active} label={`${job.agent} turns ${job.inputs.join(', ')} into a ${job.output.toLowerCase()} for human review.`}>
+    <Figure active={active} label={`An agent turns ${job.inputs.join(', ')} into a ${job.output.toLowerCase()} for human review.`}>
       {[80,220,360].map((y,i)=><Route key={i} d={petal([340,220],[95,y],38)} delay={i}/>)}
       <Route d="M340 220 C395 85 600 80 600 220 C600 370 395 355 340 220" gold delay={2}/>
       {[80,220,360].map((y,i)=><Node key={i} x={95} y={y} label={job.inputs[i]} Icon={[FolderOpen,Target,FileText][i]}/>)}
-      <Core x={340} y={220} label={job.agent} Icon={job.Icon} detail={job.name}/>
+      <Core x={340} y={220} label="Agent" Icon={job.Icon} detail={job.name}/>
       <g className="output-sheet" key={chosen} transform="translate(493 105)">
         <rect width="210" height="240" rx="16"/><job.Icon x="22" y="22" width="25" height="25"/><text x="22" y="75" className="output-title">{job.output}</text>
         {chosen===0&&['Source linked','Evidence found','Unknowns flagged'].map((s,i)=><g className="output-row" key={s} style={{animationDelay:`${i*.25}s`}}><Check x="22" y={95+i*32} width="16" height="16"/><text x="46" y={108+i*32}>{s}</text></g>)}
