@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, Bot, BrainCircuit, BriefcaseBusiness, Check, ChevronRight, ClipboardCheck, Code2, Copy, ExternalLink, Eye, FileText, FolderOpen, Link2, Monitor, Network, Search, ShieldCheck, Sparkles, Target, UserRound, Wrench } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bot, BrainCircuit, BriefcaseBusiness, Building2, Check, ChevronRight, ClipboardCheck, Code2, Copy, ExternalLink, Eye, FileText, FolderOpen, Globe2, Link2, Monitor, Network, Search, ShieldCheck, Sparkles, Target, UserRound, UsersRound, Wrench } from 'lucide-react';
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
 import { agentParts, config, frames, profiles, prompts, sources, steps } from './content';
 
@@ -18,16 +18,21 @@ function PromptList() {
 }
 
 function TeamVisual({ phase }: { phase: number }) {
-  const lanes = [
-    ['Research', Search, ['Market signals', 'Source check', 'Competitive scan']],
-    ['Write', FileText, ['Client outline', 'Draft language', 'Q&A prep']],
-    ['Analyze', BrainCircuit, ['Scorecard', 'Scenario model', 'Data check']],
-    ['Build', Code2, ['Intake tool', 'Profile app', 'Workflow']],
-  ] as const;
-  return <div className={'team-visual command-desk' + (phase ? ' is-held' : '')} role="img" aria-label={phase ? 'A human director, a team workboard, and many completed digital assignments.' : 'A human director dispatching many assignments to a digital team.'}>
-    <section className="command-person"><p>Human director</p><div className="person-mark"><UserRound /></div><strong>Set the work.</strong><span>Set the guardrails.</span><span>Review the result.</span></section>
-    <div className="dispatch-bridge" aria-hidden="true"><span>Brief</span><i /><b /></div>
-    <section className="workboard"><header><div><span>Digital team</span><small>Many bounded assignments, one clear owner</small></div><p><i /> Working</p></header><div className="work-lanes">{lanes.map(([name, Icon, tasks], lane) => <article className={'work-lane lane-' + lane} key={name}><div className="lane-head"><Icon /><strong>{name}</strong><span>0{lane + 1}</span></div><div className="task-stack">{tasks.map((task, index) => <div className={'task-chip task-' + index} key={task}><i /><span>{task}</span><b>{index === 2 ? 'ready' : 'working'}</b></div>)}</div></article>)}</div><footer><span className="review-light" />Results return for human review <b>→</b></footer></section>
+  const held = phase === 1;
+  const agents = [['Research', Search], ['Write', FileText], ['Analyze', BrainCircuit], ['Build', Code2]] as const;
+  const outside = [['Clients', UsersRound], ['Public sources', Globe2], ['Partners', Building2]] as const;
+  const Flow = ({ path, tone, delay }: { path: string; tone: string; delay: string }) => <g className={'flow flow-' + tone}><path d={path} />{held ? <circle className="flow-held" cx="500" cy="202" r="4" /> : <circle className="flow-packet" r="5"><animateMotion dur="7.2s" begin={delay} repeatCount="indefinite" path={path} /><animate attributeName="opacity" values="0;1;1;0" dur="7.2s" begin={delay} repeatCount="indefinite" /></circle>}</g>;
+  return <div className={'team-visual living-system' + (held ? ' is-held' : '')} role="img" aria-label={held ? 'A complete information system: outside parties, digital agents, and a human decision maker.' : 'Information moving continuously among outside parties, digital agents, and a human decision maker.'}>
+    <p className="system-title"><span>{held ? 'The system is ready to review' : 'A continuous system, led by a person'}</span><small>Evidence in · judgment through · approved work out</small></p>
+    <svg className="system-flows" viewBox="0 0 1000 410" aria-hidden="true">
+      <Flow path="M178 87 C160 175 170 263 190 330" tone="evidence" delay="0s" /><Flow path="M500 87 C475 168 430 260 398 330" tone="evidence" delay="-2.4s" /><Flow path="M822 87 C835 175 755 268 608 330" tone="evidence" delay="-4.8s" />
+      <Flow path="M190 330 C290 310 372 266 462 220" tone="draft" delay="-1.2s" /><Flow path="M398 330 C440 292 468 251 489 220" tone="draft" delay="-3.6s" /><Flow path="M608 330 C574 292 539 251 511 220" tone="draft" delay="-6s" />
+      <Flow path="M500 192 C430 155 345 118 178 87" tone="approval" delay="-1.8s" /><Flow path="M500 192 C500 152 500 118 500 87" tone="approval" delay="-4.2s" /><Flow path="M500 192 C570 155 655 118 822 87" tone="approval" delay="-5.7s" />
+    </svg>
+    <div className="outside-world">{outside.map(([label, Icon], index) => <article className={'world-node world-' + index} key={label}><Icon /><span>{label}</span><small>{index === 0 ? 'ask · send' : index === 1 ? 'evidence · signals' : 'coordinate · deliver'}</small></article>)}</div>
+    <article className="human-core"><div className="human-portrait"><span /><i /></div><div><p>Human</p><h2>Direction &amp; judgment</h2><small>review · clean up · decide · send</small></div></article>
+    <div className="agent-row">{agents.map(([label, Icon], index) => <article className={'agent-node agent-' + index} key={label}><span>0{index + 1}</span><Icon /><strong>{label}</strong><small>digital agent</small></article>)}</div>
+    <div className="flow-key"><span className="key-evidence" />Evidence <span className="key-draft" />Work in progress <span className="key-approval" />Approved action</div>
   </div>;
 }
 
