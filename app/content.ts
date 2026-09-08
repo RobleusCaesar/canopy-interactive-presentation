@@ -1,16 +1,17 @@
-export const config = { sessionDate: 'September 9, 2026', sampleAppUrl: '', discoveryUrl: '', verified: 'September 8, 2026' };
+import { webinarPrompt } from './serena-content';
+
+export const config = { sessionDate: 'September 9, 2026', sampleAppUrl: '', verified: 'September 8, 2026' };
 
 export const steps = [
   { title: 'Digital Employees', short: 'Digital team', time: '1.5 min', cue: '“You set direction. The system does the bounded work.”', notes: 'Open with the remote-team analogy: give useful assignments, time to work, review, and feedback. The point is not replacement; it is building a management habit. The 2–3× output idea is the presenter’s ambition, not a guarantee. Named agents are illustrative. Let the opening loop as people arrive. Next holds the current positions; Back resumes. You remain responsible for review, refinement, and sending work out.' },
-  { title: 'Move from answers to outcomes.', short: 'Answers → outcomes', time: '2 min', cue: '“The useful shift is from asking to assigning.”', notes: 'A chat produces an answer. An agent can work toward a deliverable with context and tools. A coding agent can turn a repeated workflow into a simple tool. These labels overlap; they are a practical way to decide what to ask for.' },
+  { title: 'Move from answers to outcomes.', short: 'Answers → outcomes', time: '4 min', cue: '“The useful shift is from asking to assigning.”', notes: 'A chat produces an answer. In the agent section, select four day-one starting points from Serena’s work: morning inbox triage, website bio/headshot preparation, photoshoot scheduling, and Talent Book checks. Each shows a trigger, a concrete result, and a human review point. Start with a small set of approved files, an inbox folder, or a calendar/roster export and supervise the first run. Recurring or event-driven work requires approved connections, instructions and a supported trigger; these are proposed workflows, not ready-made installed automations. CMS draft staging depends on the website connection; a prepared publication package is the fallback. Do not infer permission to send, publish, merge records or book events. A coding agent can turn a repeated workflow into a simple tool. These labels overlap; the useful distinction is who initiates the work and how it gets done.' },
   { title: 'An agent is a small system for doing work.', short: 'Inside an agent', time: '2 min', cue: '“The model is the engine. The system makes it useful.”', notes: 'Advance through the components one at a time. Each missing piece explains a common failure: unclear goal, weak direction, missing context, no ability to act, or no review. The loop is deliberate: plan, act, inspect, adjust. Human judgment remains outside the loop.' },
   { title: 'Choose the system for the job.', short: 'System profiles', time: '3 min', cue: '“Pick the system for the job; manage the work the same way.”', notes: 'Select a named system in the diagram. These are deliberately simplified system profiles, not rankings or feature promises. ChatGPT is a familiar conversational starting point. Claude can create standalone artifacts. Grok Bot documents focused bots, tools, a shared computer, and review points. OpenClaw is an open agent gateway with setup to consider. Codex is the coding agent used in the demonstration. Access varies by product, plan, and setup. The brief, review, and judgment remain yours in every case.' },
   { title: 'Start with work you can inspect.', short: 'Good first work', time: '2.5 min', cue: '“Choose a recurring task with a visible definition of good.”', notes: 'Use the examples as prompts, not capability claims. Candidate work includes research, writing, analysis, coordination, creation, and small software. Review factual claims, calculations, eligibility, and external actions. Start bounded, then measure actual time saved.' },
   { title: 'Access is your decision.', short: 'Connections & computer', time: '2 min', cue: '“Access is useful. Permission is a separate decision.”', notes: 'Use the example button to allow reading, then separately allow changes. It is an illustration and changes no real access. Define MCP once: Model Context Protocol is a common standard for connecting AI applications to external tools and information. It is not a database, a model, or automatic permission. Read access differs from change permission. A screenshot gives a moment of context; computer use and screen access depend on the product and environment.' },
-  { title: 'Brief. Review. Refine.', short: 'Briefing loop', time: '3 min', cue: '“A strong brief makes review faster.”', notes: 'Show outcome, context, sources, constraints, and definition of done. You can describe the result instead of every click. Ask the system to interview you one question at a time when context is missing. Next reveals the review: an unsupported claim that a company needs help becomes a possible fit, with intent explicitly unconfirmed. Feedback returns to the agent; you decide when it is ready. Verify sources and calculations, not just formatting. Prompt starters opens example instructions.' },
+  { title: 'Build a webinar coordinator.', short: 'Webinar agent', time: '5 min', cue: '“Give repeatable work a trigger, tools and a review point.”', notes: 'Advance through five setup steps: source of truth, trigger, audience, agent, and human handoff. This is a proposed automation for Serena’s webinar reminders and follow-ups. The Microsoft tools illustrate one concrete implementation; Canopy’s actual tools and access need to be confirmed. Timing and recipient rules belong in explicit automation. Agent value comes from interpreting context, tailoring messages and identifying exceptions. The on-screen workflow is illustrative and never sends email.' },
   { title: 'Delegate work. Keep judgment.', short: 'Boundaries', time: '2 min', cue: '“Keep the decisions and the sensitive moments with people.”', notes: 'Sign-ins, codes, CAPTCHAs, and secure environments may need intervention. Purchases and commitments need explicit authorization. Plausible writing can contain invented facts or incorrect calculations. Missing context and wrong tools can create polished but unusable work.' },
-  { title: 'Find potential clients. Show the evidence.', short: 'Discovery demo', time: '10 min · Demo', cue: '“We are looking for evidence, not pretending to know intent.”', notes: 'Inspect a signal in the fictional example, then switch to the live research tool. Use public sources. Request company, public evidence of possible need, relevant service, URL, research date, and uncertainty. Signals suggest fit; they do not prove buying intent. No automated outreach. The on-screen Example Co and its signal are fictional illustrations, not live research.' },
-  { title: 'Describe it. Build it. Use it.', short: 'Build + use demo', time: '40 min · Demo', cue: '“We will build the tool, then use it together.”', notes: 'Use the illustration to walk through describe, build, use, and improve, then switch to Codex and use voice. This is one combined demonstration: create simple software and use it to make a profile. Use sample data. Exact inputs and outputs await CEO clarification; do not invent résumé fields or bio formats. The in-slide tool is an illustration, not an actual code generator. A starter is optional, not assumed.' },
+  { title: 'Define it. Design it. Build it.', short: 'Build + launch', time: '40 min · Demo', cue: '“Build a useful tool, then put it to work.”', notes: 'Page one uses three progressive animations: requirements, design, and build. Page two shows five implementation steps: GitHub account and repository, upload software, deploy a static site with Pages, quality assurance, and refinement. The final refinement step introduces the live demo. These are illustrative processes; no account, upload or deployment is performed by the slide.' },
   { title: 'What would you delegate first?', short: 'Questions', time: '20 min · Discussion', cue: '“Name one recurring task worth trying this week.”', notes: 'Invite the group to choose a repeatable task, describe good, and decide how to review it. Use the overview index to revisit any visual. The outcome is one bounded experiment, not a new process for everything.' },
 ];
 
@@ -31,6 +32,7 @@ export const profiles = [
 ];
 
 export const prompts = [
+  webinarPrompt,
   'Interview me one question at a time before proposing the solution.',
   'What information are you missing?',
   'Show your sources and separate facts from assumptions.',
@@ -47,6 +49,19 @@ export const sources = [
   ['OpenClaw · open agent gateway', 'https://docs.openclaw.ai/'],
   ['MCP · official introduction', 'https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro'],
   ['Codex · OpenAI developer overview', 'https://developers.openai.com/'],
+  ['Microsoft · agent event triggers', 'https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-triggers-about'],
+  ['Microsoft · agent flows, schedules and actions', 'https://learn.microsoft.com/en-us/training/modules/use-agent-flows/'],
+  ['Microsoft · human approval before sending', 'https://learn.microsoft.com/en-us/power-automate/modern-approvals'],
+  ['GitHub · create an account', 'https://docs.github.com/en/account-and-profile/how-tos/account-management/creating-an-account-on-github'],
+  ['GitHub Pages · publish a static site', 'https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site'],
 ];
 
-export const frames = steps.flatMap((_, step) => Array.from({ length: step === 0 ? 2 : step === 1 ? 3 : step === 2 ? 7 : step === 6 ? 2 : 1 }, (_, phase) => ({ step, phase })));
+export const frames = steps.flatMap((_, step) => Array.from({ length: step === 0 ? 2 : step === 1 ? 3 : step === 2 ? 7 : step === 6 ? 5 : step === 8 ? 8 : 1 }, (_, phase) => ({ step, phase })));
+
+export const positionKey = 'canopy-presentation-v3';
+export function restorePosition(current:string|null, legacy:string|null) {
+  const value=Number(current??legacy);
+  if(!Number.isInteger(value)||value<0)return 0;
+  const migrated=current!==null?value:value<=15?value:value===16?15:value===17?20:value<=19?21:frames.length-1;
+  return Math.min(migrated,frames.length-1);
+}

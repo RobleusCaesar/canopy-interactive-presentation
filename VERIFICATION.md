@@ -1,26 +1,34 @@
 # Verification
-- TypeScript check passed.
-- All 21 reveal states traversed at 1920×1080, 1366×768, and 390×844.
-- No horizontal overflow or browser runtime errors in those checks.
-- Slides 04–11 were redesigned to match the accepted opening and assembly scenes.
-  All new node labels fit their boxes. Desktop and mobile screenshots of every
-  redesigned scene and its principal interaction states were reviewed.
-- All desktop slide content fits above the controls. Animated slide 02 and the
-  brief builder, work tabs, permission gate, checkpoints, discovery and build
-  demonstrations were exercised in the browser.
-- System selection works by mouse and keyboard. Both reading and change-access
-  states, all four work examples, all four checkpoints, the discovery evidence
-  reveal, all four build/use stages, and the closing questions passed.
-- Live SVG motion, exact pause/resume, offscreen suspension, and reduced-motion
-  settings passed. The opening's exact hold/replay and all seven assembly states
-  passed regression checks. Inactive slides are inert to keyboard focus.
-- Position survives refresh and keyboard navigation passed. Overview, sources,
-  notes, and prompt drawers remain available from the presentation controls.
-- Fixed-header navigation keeps the slide title visible after every state change.
-  Detailed spoken cues remain in the presenter notes instead of the main canvas.
-- Main flow: 20-minute overview, 10 discovery, 40 combined app build/use, 20 Q&A.
+
+- TypeScript and lint checks on the new modules passed.
+- The presentation now has 10 numbered slides and 30 progressive reveal states.
+- All 30 states were traversed at desktop and phone sizes, with no browser
+  runtime errors, failed asset requests, horizontal overflow, or content under
+  the fixed presentation controls. Titles remain below the fixed header.
+- Slide 02's four agent examples were exercised: inbox triage, website profiles,
+  photoshoot scheduling, and Talent Book checks. Each animation visibly changes;
+  Replay preserves the selected example. Triggers and starting points are shown.
+- Slide 07's five webinar setup scenes were exercised, including their distinct
+  animations, step-specific presenter notes, copyable setup brief, and simulated
+  approval/replay interaction. No orbit-dot animation remains in this walkthrough.
+- The old feedback screen and discovery slide are absent from the sequence.
+- The build workshop was checked across its two pages and eight animated steps:
+  Requirements, Design, Build, GitHub, Upload, Pages, QA, and Refine. The local
+  sample can be tried/reset, and the final step explicitly introduces the live demo.
+- Desktop and mobile screenshots of the new examples and walkthroughs were
+  reviewed. Animations change visibly, settle for discussion, and can be replayed.
+- Reduced-motion behavior passed. Inactive slides are inert to keyboard focus.
+- Position survives refresh, and saved positions from the previous published
+  sequence migrate correctly. Overview contains 10 entries. Notes, Sources,
+  and the setup brief remain available through the existing controls.
+- The accepted opening and agent assembly scenes were preserved. Their exact
+  pause/resume and seven assembly states passed earlier regression checks.
+- Suggested pacing is 22 minutes of concepts/webinar setup, 40 minutes for the
+  build demonstration, and 20 minutes for discussion. Presenter rehearsal remains
+  a human preparation step; no timed live rehearsal is claimed.
 - Local Windows production export rendered successfully but the Vinext process
   hit a native teardown assertion afterward. GitHub Actions performs the clean
   Linux production build before publishing.
-- Presenter rehearsal remains a human preparation step; no claim of a timed
-  live rehearsal is made. The external-app workflow is intentionally illustrative.
+- All data, workflows, approvals, and product interfaces shown are illustrative.
+  No external automation is installed and no messages are sent by these demos.
+  Microsoft and GitHub implementation references are available in Sources.

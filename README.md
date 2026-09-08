@@ -1,27 +1,37 @@
 # Canopy interactive presentation
 
-11 presenter-led screens (21 progressive reveal states), with a 20/10/40/20-minute session plan.
+10 presenter-led screens (30 progressive reveal states).
 
 ## Run and edit
 Use Node 24+, then npm ci and npm run dev. Open the local URL shown.
-Edit app/content.ts for the visible cues, presenter notes, system-profile summaries,
-date, source links, and optional demo URLs.
+Edit app/content.ts for titles, presenter notes, profiles, date, and source links.
+Edit app/serena-content.ts for Serena's four agent examples, the five webinar
+setup steps, their detailed notes, and the copyable setup brief.
+Edit app/build-workshop.tsx for the creation and implementation steps and notes.
 Edit app/globals.css for design tokens. Blank demo URLs intentionally hide the links.
 Use Next/Back, arrow keys, Page Up/Page Down, Space, or ordinary scrolling.
 Overview revisits an idea and resets to the start. Notes are off by default.
 The opening scene loops until the first Next holds its exact position for discussion.
-Slide 02 advances through animated chat, agent, and software examples; Replay
-restarts the current illustration. Slide 03 assembles an agent one component at a time.
-Slides 04–11 carry the opening's visual language through the rest of the story:
-select a system around the human director, choose a work example, allow reading
-and changes separately, review and correct a draft, explore human checkpoints,
-inspect a fictional discovery signal, and walk through build/use/refine.
+Slide 02 advances through chat, agents, and software. Its agent section has four
+selectable, animated examples: inbox triage, website profiles, photoshoot scheduling,
+and Talent Book checks. Each includes a trigger, day-one starting point, and review.
+Replay restarts the selected example. Slide 03 assembles an agent one component at a time.
+Slide 07 now has five progressive setup steps for a webinar communications agent:
+brief, trigger, audience, agent, and handoff. Next advances the walkthrough;
+Replay restarts a step. The final approval button demonstrates delivery without
+sending anything. Notes change with each step, and Setup brief opens a copyable prompt.
+The former feedback screen and discovery slide were removed. Slides 08–10 cover
+human checkpoints, the build workshop, and discussion. The build workshop has
+two pages: Requirements / Design / Build, followed by GitHub / Upload / Pages /
+QA / Refine. Each step has its own animation; Refine introduces the live demo.
 The closing diagram returns to one task, a useful result, and human review.
-Pause/Resume beneath each of those diagrams holds its motion for discussion.
+Pause/Resume beneath the orbital diagrams holds their motion for discussion.
+The webinar and build animations play once and settle for discussion.
 Animations stop on inactive slides and respect reduced-motion preferences.
 Inactive slides also stay out of keyboard and assistive-technology navigation.
 These demonstrations use illustrative data and do not contact external services.
-Only the current reveal position is stored locally. No AI backend or analytics.
+Only the current reveal position is stored locally. Older saved positions migrate
+to the revised slide sequence. No AI backend or analytics.
 
 ## Publish
 The GitHub Actions workflow builds and deploys GitHub Pages on pushes to main.
@@ -39,11 +49,14 @@ so proprietary font files are not redistributed. No external font dependency.
 Product references and verification date are in the Sources drawer and content.ts.
 All product interfaces are clearly labeled illustrative visual summaries, rather than
 product screenshots; no private screenshot data is used.
-The discovery fallback is illustrative. The external Codex expert-profile app is
+The webinar walkthrough is an illustrative Microsoft setup, not an installed automation.
+Its event triggers, scheduling and human approval references are in Sources.
+The external Codex expert-profile app is
 intentionally not built; its workflow is represented as a clearly labeled demo.
 
 ## Presentation preparation
-The overview notes total 20 minutes, then 10 discovery, 40 combined build/use,
-and 20 Q&A. A human presenter should rehearse the pacing before the session.
+Suggested notes now total about 22 minutes of concepts and the webinar walkthrough,
+40 minutes for the combined build/use demonstration, and 20 minutes for Q&A.
+A human presenter should rehearse the pacing before the session.
 Use sample data during a live external-app demonstration. The presentation works
-with both demo URLs absent.
+with the optional demo URL absent.

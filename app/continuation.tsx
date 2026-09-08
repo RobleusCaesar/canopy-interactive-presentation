@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { ArrowRight, Bot, Check, Code2, FileText, Search, ShieldCheck, RotateCcw, Play, Pause, LockKeyhole, Send, Eye, FolderOpen, Monitor, Network, UserRound, Target, MessageCircle, Globe2, Sparkles, CircleHelp, type LucideIcon } from 'lucide-react';
+import { ArrowRight, Bot, Check, Code2, FileText, Search, ShieldCheck, RotateCcw, Play, Pause, LockKeyhole, Send, Eye, FolderOpen, Monitor, Network, UserRound, Target, MessageCircle, Globe2, Sparkles, type LucideIcon } from 'lucide-react';
 import { profiles } from './content';
 import './continuation.css';
 
@@ -123,27 +123,6 @@ export function ConnectionsScene({active}:Active) {
   </div>;
 }
 
-export function ReviewScene({active,phase,openExamples}:Active&{phase:number;openExamples:(v:boolean)=>void}) {
-  return <div className={`flow-layout review-story ${phase?'refining':'briefing'}`}>
-    <aside className="flow-caption"><p className="micro">{phase?'02 / 02 · Review & refine':'01 / 02 · The brief'}</p><h2>{phase?'Feedback makes it useful.':'Five potential clients.'}</h2>
-      {phase?<div className="review-checks"><p><Search/>Check the sources.</p><p><CircleHelp/>Name the uncertainty.</p><p><FileText/>Improve the draft.</p></div>:<div className="brief-ingredients">{['Outcome','Context','Sources','Constraints','Done'].map((s,i)=><span key={s}><b>0{i+1}</b>{s}</span>)}</div>}
-      <button className="text-button" onClick={()=>openExamples(true)}>Prompt starters <ArrowRight size={17}/></button><Note>You decide when it is ready.</Note>
-    </aside>
-    <Figure active={active} label={phase?'You review an agent draft, correct an unsupported claim, and return feedback.':'You supply a clear brief, the agent drafts, and the work returns for review.'}>
-      <Route d="M350 155 C210 55 120 100 120 205 C120 325 235 398 350 348" gold/>
-      <Route d="M350 348 C500 411 610 340 610 180 C610 59 443 54 350 155" delay={2}/>
-      <Route d={petal([350,155],[350,348],42)} gold={phase===1} delay={4}/>
-      <Core x={350} y={155} detail="Review · Refine"/><Node x={350} y={348} label="Agent" detail="Draft · Revise"/>
-      <Node x={120} y={205} label={phase?'Feedback':'Brief'} Icon={phase?MessageCircle:Target}/>
-      <g className="review-slip" transform="translate(504 120)" key={phase}>
-        <rect width="195" height="157" rx="12"/><FileText x="18" y="18" width="21" height="21"/><text x="49" y="34">{phase?'Revised draft':'First draft'}</text>
-        <text x="18" y="69" className={phase?'claim-replaced':'draft-claim'}>“They need help.”</text>{phase&&<path d="M17 64H160" className="editor-strike"/>}
-        {phase?<><text x="18" y="101" className="revised-claim">A possible fit.</text><text x="18" y="130" className="output-meta">Intent unconfirmed</text></>:<><path d="M18 97H165M18 115H135" className="rough-ink"/><text x="18" y="141" className="output-meta">Check before relying on it</text></>}
-      </g>
-    </Figure>
-  </div>;
-}
-
 const checkpoints=[
   {name:'Judgment',Icon:ShieldCheck,action:'Decide',text:'Decisions and final sign-off stay with you.'},
   {name:'Commitments',Icon:Send,action:'Approve',text:'Pause before purchases, sending, or changes.'},
@@ -161,47 +140,6 @@ export function BoundaryScene({active}:Active) {
       <text x="112" y="391" className="diagram-small" textAnchor="middle">Drafts & proposals</text><text x="608" y="63" className="diagram-small" textAnchor="middle">Your decision to send</text>
     </Figure>
     <aside className="flow-caption"><p className="micro">The human checkpoint</p><div className="checkpoint-options" aria-label="Human checkpoints">{checkpoints.map(({name,Icon},i)=><button key={name} aria-pressed={chosen===i} onClick={()=>setChosen(i)}><Icon size={18}/>{name}</button>)}</div><h2 className="checkpoint-message" key={chosen}>{item.text}</h2><Note>Useful work. Accountable people.</Note></aside>
-  </div>;
-}
-
-const signals:Point[]=[[106,75],[275,54],[497,69],[625,147],[596,340],[413,379],[149,351]];
-export function DiscoveryScene({active}:Active) {
-  const [revealed,setRevealed]=useState(false);
-  return <div className={`flow-layout discovery-story ${revealed?'signal-selected':''}`}>
-    <Figure active={active} label={revealed?'A fictional growth signal becomes evidence for a possible service fit. Need and intent remain unconfirmed.':'Public signals flow into research. Inspect one to see evidence and uncertainty together.'}>
-      {signals.map((p,i)=><Route key={i} d={petal([350,219],p,28)} delay={i} gold={revealed&&i===3} muted={revealed&&i!==3}/>)}
-      <Route d={petal([350,219],[112,200],28)} muted={revealed} delay={2}/>
-      {signals.map(([x,y],i)=><g key={i} transform={`translate(${x} ${y})`} className={`signal-source ${revealed&&i===3?'selected':''}`}><circle r={revealed&&i===3?24:18}/>{i%2===0?<FileText x="-9" y="-9" width="18" height="18"/>:<Globe2 x="-9" y="-9" width="18" height="18"/>}</g>)}
-      <Core x={350} y={219} label="Sara" detail="Research" Icon={Search}/>
-      <Node x={112} y={200} label="Sources" detail="Public info" Icon={Globe2}/>
-      {revealed?<g className="discovery-evidence" transform="translate(478 216)"><rect width="215" height="100" rx="12"/><text x="18" y="30">Example Co</text><text x="18" y="58" className="node-detail">Public growth signal</text><text x="18" y="80" className="evidence-warning">Buying intent: unknown</text></g>:<text x="570" y="230" className="diagram-small" textAnchor="middle">Which signals matter?</text>}
-    </Figure>
-    <aside className="flow-caption"><p className="micro">Fictional example · not live research</p><h2>{revealed?'Evidence before outreach.':'Find a signal. Follow the evidence.'}</h2>
-      <div className="evidence-steps"><span className="complete"><i>1</i>Public signal</span><span className={revealed?'complete':''}><i>2</i>Possible service fit</span><span><i>3</i>Human review</span></div>
-      <button className="demo-action" onClick={()=>setRevealed(!revealed)}>{revealed?<RotateCcw size={17}/>:<Search size={17}/>} {revealed?'Reset example':'Inspect a signal'}</button>
-      <p className="demo-handoff">Live next: research with public sources.</p>
-    </aside>
-  </div>;
-}
-
-export function BuildScene({active}:Active) {
-  const [stage,setStage]=useState(0);
-  return <div className={`flow-layout build-story build-stage-${stage}`}>
-    <aside className="flow-caption"><p className="micro">Illustrative workflow</p><h2>{['Describe it.','Build it.','Use it.','Improve it.'][stage]}</h2><p className="flow-lead">{['Start with the result you want.','A small tool takes shape.','Run it with a sample.','Review the result. Refine the tool.'][stage]}</p>
-      <div className="build-stages" aria-label="Build and use stages">{['Describe','Build','Use','Improve'].map((s,i)=><button key={s} aria-pressed={stage===i} onClick={()=>setStage(i)}><span>{i+1}</span>{s}</button>)}</div>
-      <button className="demo-action" onClick={()=>setStage((stage+1)%4)}>{stage===3?<RotateCcw size={17}/>:<Play size={17}/>} {['Build the idea','Run a sample','Refine the result','Replay illustration'][stage]}</button>
-      <p className="demo-handoff"><Code2 size={17}/>Live next: build & use in Codex + voice.</p>
-    </aside>
-    <Figure active={active} label={['A person describes a workflow to Codex.','Codex assembles a small illustrative tool.','The tool produces a sample result for review.','Human feedback returns to Codex to improve the tool.'][stage]}>
-      <Route d={petal([302,225],[108,83],43)} gold delay={3}/><Route d="M302 225 C376 61 598 69 598 216 C598 359 376 390 302 225" muted={stage===0} gold={stage===3}/>
-      <Node x={108} y={83} label="You" detail={stage===3?'Give feedback':'Set the goal'} Icon={UserRound}/><Core x={302} y={225} label="Codex" Icon={Code2}/>
-      <g className="build-tool" transform="translate(455 116)" key={stage}>
-        <rect width="243" height="242" rx="15" className={stage===0?'tool-blueprint':'tool-solid'}/><path d="M0 39H243" className="tool-divider"/>
-        <circle cx="18" cy="20" r="3"/><circle cx="29" cy="20" r="3"/><circle cx="40" cy="20" r="3"/><text x="225" y="25" textAnchor="end" className="output-meta">Illustrative tool</text>
-        <g className="tool-components"><rect x="20" y="63" width="203" height="34" rx="5"/><text x="32" y="86">{stage<2?'Sample inputs':'Sample loaded'}</text><rect x="20" y="109" width="203" height="34" rx="5"/><text x="32" y="132">{stage<2?'Your workflow':'Result generated'}</text></g>
-        {stage>=2?<g className="tool-success"><rect x="20" y="165" width="203" height="52" rx="8"/><Check x="31" y="180" width="21" height="21"/><text x="64" y="188">{stage===3?'Feedback added':'Ready for review'}</text><text x="64" y="205" className="output-meta">{stage===3?'Revise → try again':'You inspect the result'}</text></g>:<text x="20" y="192" className="output-meta">{stage===0?'An idea becomes a workflow.':'Ready for a first test.'}</text>}
-      </g>
-    </Figure>
   </div>;
 }
 
