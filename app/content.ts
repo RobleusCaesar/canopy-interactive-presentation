@@ -49,4 +49,4 @@ export const sources = [
   ['Codex · OpenAI developer overview', 'https://developers.openai.com/'],
 ];
 
-export const frames = steps.flatMap((_, step) => Array.from({ length: step === 1 ? 3 : step === 2 ? 7 : step === 6 ? 2 : 1 }, (_, phase) => ({ step, phase })));
+export const frames = steps.flatMap((_, step) => Array.from({ length: step === 0 ? 2 : step === 1 ? 3 : step === 2 ? 7 : step === 6 ? 2 : 1 }, (_, phase) => ({ step, phase })));

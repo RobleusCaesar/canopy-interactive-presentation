@@ -1,6 +1,6 @@
 # Verification
 - TypeScript check passed.
-- All 20 reveal states traversed at 1920×1080, 1366×768, and 390×844.
+- All 21 reveal states traversed at 1920×1080, 1366×768, and 390×844.
 - No horizontal overflow or browser runtime errors in those checks.
 - Position survives refresh and keyboard navigation passed. Overview, sources,
   notes, and prompt drawers remain available from the presentation controls.

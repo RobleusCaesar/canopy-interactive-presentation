@@ -1,6 +1,6 @@
 # Canopy interactive presentation
 
-11 presenter-led screens (20 progressive reveal states), with a 20/10/40/20-minute session plan.
+11 presenter-led screens (21 progressive reveal states), with a 20/10/40/20-minute session plan.
 
 ## Run and edit
 Use Node 24+, then npm ci and npm run dev. Open the local URL shown.
@@ -9,6 +9,7 @@ date, source links, and optional demo URLs.
 Edit app/globals.css for design tokens. Blank demo URLs intentionally hide the links.
 Use Next/Back, arrow keys, Page Up/Page Down, Space, or ordinary scrolling.
 Overview revisits an idea and resets to the start. Notes are off by default.
+The opening scene loops quietly until the first Next holds the completed team for discussion.
 Only the current reveal position is stored locally. No AI backend or analytics.
 
 ## Publish
