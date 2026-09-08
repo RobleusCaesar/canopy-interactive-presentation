@@ -1,6 +1,6 @@
 # Canopy interactive presentation
 
-10 presenter-led screens (30 progressive reveal states).
+10 presenter-led screens (31 progressive reveal states).
 
 ## Run and edit
 Use Node 24+, then npm ci and npm run dev. Open the local URL shown.
@@ -12,7 +12,10 @@ Edit app/globals.css for design tokens. Blank demo URLs intentionally hide the l
 Use Next/Back, arrow keys, Page Up/Page Down, Space, or ordinary scrolling.
 Overview revisits an idea and resets to the start. Notes are off by default.
 The opening scene loops until the first Next holds its exact position for discussion.
-Slide 02 advances through chat, agents, and software. Its agent section has four
+Slide 02 advances through chat, an agent introduction, agent examples, and software.
+Both agent pages retain the 02 / 03 Agent stage label. The introduction animates
+a human goal becoming completed work, then Next opens the four examples.
+Its agent section has four
 selectable, animated examples: inbox triage, website profiles, photoshoot scheduling,
 and Talent Book checks. Each includes a trigger, day-one starting point, and review.
 Replay restarts the selected example. Slide 03 assembles an agent one component at a time.

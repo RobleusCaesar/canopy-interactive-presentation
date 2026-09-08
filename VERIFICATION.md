@@ -1,10 +1,14 @@
 # Verification
 
 - TypeScript and lint checks on the new modules passed.
-- The presentation now has 10 numbered slides and 30 progressive reveal states.
-- All 30 states were traversed at desktop and phone sizes, with no browser
+- The presentation now has 10 numbered slides and 31 progressive reveal states.
+- All 31 states were traversed at desktop and phone sizes, with no browser
   runtime errors, failed asset requests, horizontal overflow, or content under
   the fixed presentation controls. Titles remain below the fixed header.
+- Slide 02 now opens its Agent stage with a concise definition and animated
+  human-goal / agent-action / completed-work sequence before the four examples.
+  Next, Back, Replay, saved-position migration, reduced motion, and desktop/phone
+  layouts passed targeted checks. Both Agent pages keep the 02 / 03 stage label.
 - Slide 02's four agent examples were exercised: inbox triage, website profiles,
   photoshoot scheduling, and Talent Book checks. Each animation visibly changes;
   Replay preserves the selected example. Triggers and starting points are shown.
