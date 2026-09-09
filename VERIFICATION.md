@@ -11,9 +11,15 @@
 - The frozen opening copy and final All together assembly recap were removed.
   Next goes straight from the opening to Chat, and from the animated Review
   assembly state to System profiles. Both retained animations visibly advance.
-- The final slide says Thank you and Questions, with Rob Carpenter, Canopy
-  Consulting, rob@frostrivercapital.com, and (303) 358-6128. Its mailto and tel
-  links were checked, and desktop/phone screenshots were reviewed.
+- The final slide showcases the actual supplied Rob Carpenter Canopy Bio PDF
+  as a 2376×1836 PNG, rendered with an upright viewing rotation. The original
+  PDF and its bio content remain unchanged. The full page is visible without
+  stretching or cropping at 1920×1080, 1366×768 and 390×844.
+- The bio is paired with Thank you, the callback “Yes, it made my bio, too,”
+  Questions, Rob Carpenter, Canopy Consulting, rob@frostrivercapital.com, and
+  (303) 358-6128. The full-size image link, mailto and tel links were checked.
+  The closing layout aligns with the logo, fits above the footer, and has no
+  horizontal overflow or runtime errors. Desktop/phone screenshots were reviewed.
 - Immediately before Thank you, the live Canopy Bio Builder loads in an iframe.
   Its embedded mode hides its header. The frame fills the remaining slide area,
   with Open app and Expand/Restore controls. Desktop, fullscreen and phone
