@@ -1,8 +1,8 @@
 # Verification
 
 - TypeScript and lint checks on the new modules passed.
-- The presentation now has 10 numbered slides and 29 progressive reveal states.
-- All 29 states were traversed at 1920×1080, 1366×768, and 390×844, with no browser
+- The presentation now has 11 numbered slides and 30 progressive reveal states.
+- All 30 states were traversed at 1920×1080, 1366×768, and 390×844, with no browser
   runtime errors, failed asset requests, horizontal overflow, or content under
   the fixed presentation controls. Titles remain below the fixed header.
 - The opening is titled Working With AI Agents. Every small page heading and
@@ -14,6 +14,14 @@
 - The final slide says Thank you and Questions, with Rob Carpenter, Canopy
   Consulting, rob@frostrivercapital.com, and (303) 358-6128. Its mailto and tel
   links were checked, and desktop/phone screenshots were reviewed.
+- Immediately before Thank you, the live Canopy Bio Builder loads in an iframe.
+  Its embedded mode hides its header. The frame fills the remaining slide area,
+  with Open app and Expand/Restore controls. Desktop, fullscreen and phone
+  screenshots were reviewed. The app loads only after visiting its slide.
+- A sample text document was attached through the embedded file picker. It
+  remained attached after Next to Thank you and Back, with no iframe reload.
+  Keyboard input in the app did not change slides. Open app and desktop full
+  screen passed. Existing positions migrate across the inserted slide.
 - Slide 02 now opens its Agent stage with a concise definition and animated
   human-goal / agent-action / completed-work sequence before the four examples.
   Next, Back, Replay, saved-position migration, reduced motion, and desktop/phone
@@ -32,7 +40,7 @@
   reviewed. Animations change visibly, settle for discussion, and can be replayed.
 - Reduced-motion behavior passed. Inactive slides are inert to keyboard focus.
 - Position survives refresh, and saved positions from the previous published
-  sequence migrate correctly. Overview contains 10 entries. Notes, Sources,
+  sequence migrate correctly. Overview contains 11 entries. Notes, Sources,
   and the setup brief remain available through the existing controls.
 - The opening and six retained assembly states preserve their existing animated
   design. Opening reduced motion and offscreen suspension remain supported.
@@ -44,6 +52,8 @@
 - Local Windows production export rendered successfully but the Vinext process
   hit a native teardown assertion afterward. GitHub Actions performs the clean
   Linux production build before publishing.
-- All data, workflows, approvals, and product interfaces shown are illustrative.
-  No external automation is installed and no messages are sent by these demos.
-  Microsoft and GitHub implementation references are available in Sources.
+- The instructional workflows and approvals are illustrative. The Bio Builder
+  is the user's real external application; it handles its own files, credentials,
+  generation and printing. No API key was supplied and no AI-generation request
+  was made during embed testing. End-to-end generation and PDF printing were not
+  tested. Microsoft and GitHub implementation references remain in Sources.

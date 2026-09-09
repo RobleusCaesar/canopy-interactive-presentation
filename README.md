@@ -1,6 +1,6 @@
 # Canopy interactive presentation
 
-10 presenter-led screens (29 progressive reveal states).
+11 presenter-led screens (30 progressive reveal states).
 
 ## Run and edit
 Use Node 24+, then npm ci and npm run dev. Open the local URL shown.
@@ -30,13 +30,18 @@ The former feedback screen and discovery slide were removed. Slides 08–10 cove
 human checkpoints, the build workshop, and discussion. The build workshop has
 two pages: Requirements / Design / Build, followed by GitHub / Upload / Pages /
 QA / Refine. Each step has its own animation; Refine introduces the live demo.
+The penultimate slide embeds the live Canopy Bio Builder. It loads on first
+visit, stays mounted when navigating away, and includes Expand and Open app.
+The embedded app handles its own files, API-key setup and workflow. It requires
+internet access. The external tool is maintained separately.
 The closing slide says Thank you, invites questions and displays Rob Carpenter’s
 Canopy Consulting email and phone number as usable contact links.
 Pause/Resume beneath the orbital diagrams holds their motion for discussion.
 The webinar and build animations play once and settle for discussion.
 Animations stop on inactive slides and respect reduced-motion preferences.
 Inactive slides also stay out of keyboard and assistive-technology navigation.
-These demonstrations use illustrative data and do not contact external services.
+The illustrative scenes use sample data and do not contact external services.
+The embedded Bio Builder is the real application and follows its own workflow.
 Only the current reveal position is stored locally. Older saved positions migrate
 to the revised slide sequence. No AI backend or analytics.
 
@@ -54,16 +59,15 @@ Canopy CSS supplied #113B52 blue, #081F2B deep blue and #CD8130 amber.
 The official site uses Carbona; Arial/Helvetica is the local fallback here,
 so proprietary font files are not redistributed. No external font dependency.
 Product references and verification date are in the Sources drawer and content.ts.
-All product interfaces are clearly labeled illustrative visual summaries, rather than
-product screenshots; no private screenshot data is used.
+The illustrative product interfaces are visual summaries rather than product
+screenshots; no private screenshot data is used. The Bio Builder is a live app.
 The webinar walkthrough is an illustrative Microsoft setup, not an installed automation.
 Its event triggers, scheduling and human approval references are in Sources.
-The external Codex expert-profile app is
-intentionally not built; its workflow is represented as a clearly labeled demo.
+The user-provided Canopy Bio Builder is embedded directly from its public URL.
+The presentation does not copy the application or handle its credentials.
 
 ## Presentation preparation
 Suggested notes now total about 22 minutes of concepts and the webinar walkthrough,
 40 minutes for the combined build/use demonstration, and 20 minutes for Q&A.
 A human presenter should rehearse the pacing before the session.
-Use sample data during a live external-app demonstration. The presentation works
-with the optional demo URL absent.
+Use sample data during a live external-app demonstration. The illustrative slides also work offline; the live Bio Builder needs a connection.

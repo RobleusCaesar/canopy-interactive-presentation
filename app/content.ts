@@ -1,6 +1,6 @@
 import { webinarPrompt } from './serena-content';
 
-export const config = { sessionDate: 'September 9, 2026', sampleAppUrl: '', verified: 'September 8, 2026' };
+export const config = { sessionDate: 'September 9, 2026', sampleAppUrl: 'https://robleuscaesar.github.io/canopy-bio-builder/', verified: 'September 8, 2026' };
 
 export const steps = [
   { title: 'Working With AI Agents', short: 'AI agents', time: '1.5 min', cue: '“You set direction. The system does the bounded work.”', notes: 'Open with the remote-team analogy: give useful assignments, time to work, review, and feedback. The point is not replacement; it is building a management habit. The 2–3× output idea is the presenter’s ambition, not a guarantee. Named agents are illustrative. Let the opening loop as people arrive. Next begins the presentation; Back returns to the animated opening. You remain responsible for review, refinement, and sending work out.' },
@@ -12,6 +12,7 @@ export const steps = [
   { title: 'Build a webinar coordinator.', short: 'Webinar agent', time: '5 min', cue: '“Give repeatable work a trigger, tools and a review point.”', notes: 'Advance through five setup steps: source of truth, trigger, audience, agent, and human handoff. This is a proposed automation for Serena’s webinar reminders and follow-ups. The Microsoft tools illustrate one concrete implementation; Canopy’s actual tools and access need to be confirmed. Timing and recipient rules belong in explicit automation. Agent value comes from interpreting context, tailoring messages and identifying exceptions. The on-screen workflow is illustrative and never sends email.' },
   { title: 'Delegate work. Keep judgment.', short: 'Boundaries', time: '2 min', cue: '“Keep the decisions and the sensitive moments with people.”', notes: 'Sign-ins, codes, CAPTCHAs, and secure environments may need intervention. Purchases and commitments need explicit authorization. Plausible writing can contain invented facts or incorrect calculations. Missing context and wrong tools can create polished but unusable work.' },
   { title: 'Define it. Design it. Build it.', short: 'Build + launch', time: '40 min · Demo', cue: '“Build a useful tool, then put it to work.”', notes: 'Page one uses three progressive animations: requirements, design, and build. Page two shows five implementation steps: GitHub account and repository, upload software, deploy a static site with Pages, quality assurance, and refinement. The final refinement step introduces the live demo. These are illustrative processes; no account, upload or deployment is performed by the slide.' },
+  { title: 'Canopy Bio Builder', short: 'Bio builder', time: 'Live demo', cue: '“Here is the working application.”', notes: 'Use the live consultant bio builder inside the presentation. Add a sample headshot and résumé or bio document, then demonstrate its workflow. The app manages its own inputs and API-key setup; use Open app if setup is needed. Expand gives the app the full screen; Restore or Escape returns to the presentation. Use the presentation footer to continue to Thank you. Work stays in the embedded app when moving away and back during this visit. This is the real external application and requires an internet connection.' },
   { title: 'Thank you.', short: 'Thank you', time: '20 min · Discussion', cue: '“Thank you. What questions do you have?”', notes: 'Thank the audience and invite questions. Rob Carpenter, Canopy Consulting. Email: rob@frostrivercapital.com. Phone: (303) 358-6128. Use Overview to revisit any part of the presentation during discussion.' },
 ];
 
@@ -60,17 +61,18 @@ export const frames = steps.flatMap((_, step) => Array.from({ length: step === 0
 
 export const answerPages = ['Chat', 'Agent introduction', 'Agent examples', 'Software'];
 
-export const positionKey = 'canopy-presentation-v5';
-export function restorePosition(current:string|null, previous:string|null, v3:string|null, legacy:string|null) {
-  const value=Number(current??previous??v3??legacy);
+export const positionKey = 'canopy-presentation-v6';
+export function restorePosition(current:string|null, v5:string|null, previous:string|null, v3:string|null, legacy:string|null) {
+  const value=Number(current??v5??previous??v3??legacy);
   if(!Number.isInteger(value)||value<0)return 0;
   let migrated=value;
-  if(current===null) {
+  if(current===null&&v5===null) {
     if(previous===null) {
       const oldPosition=v3!==null?value:value<=15?value:value===16?15:value===17?20:value<=19?21:29;
       migrated=oldPosition>=4?oldPosition+1:oldPosition;
     }
     migrated-=Number(migrated>=1)+Number(migrated>=12);
   }
+  if(current===null&&migrated>=28)migrated++;
   return Math.min(migrated,frames.length-1);
 }
