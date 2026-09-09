@@ -10,6 +10,7 @@ import { WebinarWalkthrough } from './serena-workflows';
 import ThankYou from './thank-you';
 import BioDemo from './bio-demo';
 import './presentation-polish.css';
+import './guided-panels.css';
 import { webinarSteps } from './serena-content';
 import { ArrowLeft, ArrowRight, Copy, ExternalLink, Sparkles } from 'lucide-react';
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';

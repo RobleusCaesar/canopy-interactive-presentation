@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
-import { ArrowRight, Bot, Check, Code2, FileText, Search, ShieldCheck, RotateCcw, Play, Pause, LockKeyhole, Send, Eye, FolderOpen, Monitor, Network, UserRound, Target, MessageCircle, Globe2, Sparkles, type LucideIcon } from 'lucide-react';
+import { ArrowRight, Bot, Check, Code2, FileText, Search, ShieldCheck, RotateCcw, Play, Pause, LockKeyhole, Send, FolderOpen, Monitor, Network, UserRound, Target, MessageCircle, Globe2, Sparkles, type LucideIcon } from 'lucide-react';
 import { profiles } from './content';
 import './continuation.css';
 
@@ -40,7 +40,7 @@ function Core({x,y,label='You',detail,Icon=UserRound}:{x:number;y:number;label?:
   </g>;
 }
 
-function Figure({active,label,children,className=''}:Active&{label:string;children:ReactNode;className?:string}) {
+function Figure({active,label,children,className='',title='Illustrative workflow'}:Active&{label:string;children:ReactNode;className?:string;title?:string}) {
   const ref=useRef<SVGSVGElement>(null);
   const [paused,setPaused]=useState(false);
   const [reduced,setReduced]=useState(false);
@@ -52,9 +52,9 @@ function Figure({active,label,children,className=''}:Active&{label:string;childr
     return()=>{svg.pauseAnimations();media.removeEventListener('change',sync);};
   },[active,paused]);
   return <div className={`flow-figure ${className} ${active?'running':''} ${paused||reduced?'motion-held':''}`}>
+    <div className="panel-toolbar"><span>{title}</span><button className="motion-toggle" aria-label={paused?'Resume diagram animation':'Pause diagram animation'} aria-pressed={paused} disabled={reduced} onClick={()=>setPaused(!paused)}>{paused||reduced?<Play size={13}/>:<Pause size={13}/>} {reduced?'Motion reduced':paused?'Resume':'Pause'}</button></div>
     {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- SVG groups expose their interactive child nodes to assistive technology. */}
     <svg ref={ref} viewBox="0 0 720 440" className="flow-canvas" role="group" aria-label={label}>{children}</svg>
-    <button className="motion-toggle" aria-label={paused?'Resume diagram animation':'Pause diagram animation'} aria-pressed={paused} disabled={reduced} onClick={()=>setPaused(!paused)}>{paused||reduced?<Play size={13}/>:<Pause size={13}/>} {reduced?'Motion reduced':paused?'Resume':'Pause'}</button>
   </div>;
 }
 
@@ -66,7 +66,7 @@ export function SystemProfiles({active}:Active) {
   const [selected,setSelected]=useState(0);
   const profile=profiles[selected];
   return <div className="flow-layout profile-story">
-    <Figure active={active} label="Choose a system. You provide the brief, review and judgment.">
+    <Figure active={active} title="Select a system" label="Choose a system. You provide the brief, review and judgment.">
       {profilePoints.map((p,i)=><Route key={i} d={petal([360,220],p)} muted={selected!==i} gold={selected===i} delay={i}/>)}
       {profilePoints.map(([x,y],i)=><Node key={i} x={x} y={y} label={profiles[i].name} Icon={profileIcons[i]} selected={selected===i} onClick={()=>setSelected(i)}/>)}
       <Core x={360} y={220} detail="Brief · Review · Refine"/>
@@ -87,9 +87,9 @@ const jobs = [
 ];
 export function WorkGallery({active}:Active) {
   const [chosen,setChosen]=useState(0),job=jobs[chosen];
-  return <div className="flow-layout work-story">
-    <aside className="flow-caption work-selector"><p className="micro">One assignment. Something useful.</p><div className="choice-list" aria-label="Examples of agent work">{jobs.map(({name,verb,Icon},i)=><button key={name} aria-pressed={chosen===i} onClick={()=>setChosen(i)}><Icon/><span><b>{name}</b><small>{verb}</small></span><ArrowRight/></button>)}</div><Note>{job.review}</Note></aside>
-    <Figure active={active} label={`An agent turns ${job.inputs.join(', ')} into a ${job.output.toLowerCase()} for human review.`}>
+  return <div className="flow-layout work-story guided-panel">
+    <aside className="flow-caption work-selector guided-rail"><p className="micro">One assignment. Something useful.</p><div className="choice-list" aria-label="Examples of agent work">{jobs.map(({name,verb,Icon},i)=><button key={name} aria-pressed={chosen===i} onClick={()=>setChosen(i)}><Icon/><span><b>{name}</b><small>{verb}</small></span><ArrowRight/></button>)}</div><Note>{job.review}</Note></aside>
+    <Figure active={active} className="guided-stage" label={`An agent turns ${job.inputs.join(', ')} into a ${job.output.toLowerCase()} for human review.`}>
       {[80,220,360].map((y,i)=><Route key={i} d={petal([340,220],[95,y],38)} delay={i}/>)}
       <Route d="M340 220 C395 85 600 80 600 220 C600 370 395 355 340 220" gold delay={2}/>
       {[80,220,360].map((y,i)=><Node key={i} x={95} y={y} label={job.inputs[i]} Icon={[FolderOpen,Target,FileText][i]}/>)}
@@ -108,18 +108,18 @@ export function WorkGallery({active}:Active) {
 
 export function ConnectionsScene({active}:Active) {
   const [access,setAccess]=useState(0);
-  return <div className="flow-layout access-story">
-    <Figure active={active} label={access===0?'Files and tools wait at your permission checkpoint.':access===1?'Reading is allowed. Changes still need your permission.':'The example now permits reading and approved changes.'}>
+  return <div className="flow-layout access-story guided-panel">
+    <aside className="flow-caption guided-rail"><p className="micro">Illustration only</p><h2>{access===0?'You open the door.':access===1?'Read ≠ change.':'Set the limits.'}</h2><p className="flow-lead">{access===0?'Choose what an agent can see and do.':access===1?'Access to information does not authorize an action.':'Grant only the access the task needs.'}</p>
+      <button className="demo-action" onClick={()=>setAccess((access+1)%3)}>{access===2?<RotateCcw size={17}/>:<ShieldCheck size={17}/>} {access===0?'Allow example reading':access===1?'Allow example changes':'Reset example'}</button>
+      <p className="protocol-note"><b>MCP</b> A shared standard for connecting tools.</p>
+    </aside>
+    <Figure active={active} className="guided-stage" title="Permission checkpoint" label={access===0?'Files and tools wait at your permission checkpoint.':access===1?'Reading is allowed. Changes still need your permission.':'The example now permits reading and approved changes.'}>
       <Route d={petal([350,215],[102,90],45)} muted={access===0}/><Route d={petal([350,215],[102,345],45)} muted={access<2} delay={2}/>
       <Route d={petal([350,215],[610,215],62)} muted={!access} gold delay={1}/>
       <Node x={102} y={90} label="Files" detail="Read info" Icon={FolderOpen}/><Node x={102} y={345} label="Tools" detail="Take actions" Icon={Monitor}/>
       <Core x={350} y={215} detail="Your permission" Icon={access?ShieldCheck:LockKeyhole}/><Node x={610} y={215} label="Agent" detail={access?'Connected':'Waiting'} Icon={Bot} selected={access>0}/>
       <g className="access-status" transform="translate(520 320)"><circle r="4" fill={access?'#477e6d':'#bc823a'}/><text x="14" y="5">{access===0?'Access closed':access===1?'Read only':'Changes allowed'}</text></g>
     </Figure>
-    <aside className="flow-caption"><p className="micro">Illustration only</p><h2>{access===0?'You open the door.':access===1?'Read ≠ change.':'Set the limits.'}</h2><p className="flow-lead">{access===0?'Choose what an agent can see and do.':access===1?'Access to information does not authorize an action.':'Grant only the access the task needs.'}</p>
-      <button className="demo-action" onClick={()=>setAccess((access+1)%3)}>{access===2?<RotateCcw size={17}/>:<ShieldCheck size={17}/>} {access===0?'Allow example reading':access===1?'Allow example changes':'Reset example'}</button>
-      <p className="protocol-note"><b>MCP</b> A shared standard for connecting tools.</p>
-    </aside>
   </div>;
 }
 
@@ -132,7 +132,7 @@ const checkpoints=[
 export function BoundaryScene({active}:Active) {
   const [chosen,setChosen]=useState(0),item=checkpoints[chosen];
   return <div className="flow-layout checkpoint-story">
-    <Figure active={active} label="Work comes from your agent, passes through your judgment, then reaches the outside world.">
+    <Figure active={active} title="The human checkpoint" label="Work comes from your agent, passes through your judgment, then reaches the outside world.">
       <Route d={petal([350,235],[112,340],48)}/><Route d={petal([350,235],[608,110],48)} gold delay={2}/>
       <circle className="checkpoint-ring" cx="350" cy="235" r="98"/><circle className="checkpoint-ring outer" cx="350" cy="235" r="118"/>
       <Node x={112} y={340} label="Agent" detail="Does the work"/><Node x={608} y={110} label="The world" detail="Receives result" Icon={Globe2}/>

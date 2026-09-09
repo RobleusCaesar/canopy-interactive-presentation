@@ -19,6 +19,9 @@ Slide 02 advances through chat, an agent introduction, agent examples, and softw
 All four pages share a tinted guide rail, a divided animation stage, and a toolbar.
 The guide becomes a compact top band on narrow screens. Edit app/story-structure.css
 for this shared layout; the example tabs and review notes have their own separators.
+Slides 05, 06, 07, and 09 use the same guide-and-stage structure, with shared
+colors in app/guided-panels.css. Slides 03, 04, and 08 echo its caption panels
+and dividers. Diagram motion controls share the animation toolbar position.
 Both agent pages retain the 02 / 03 Agent stage label. The introduction animates
 a human goal becoming completed work, then Next opens the four examples.
 Its agent section has four
@@ -42,7 +45,7 @@ stage, without a border or side column, and places a small Thank you beneath it.
 The supplied PDF is rendered upright as a sharp PNG; its contents and source
 PDF are unchanged.
 Clicking the bio opens the full-resolution image in a separate tab.
-Pause/Resume beneath the orbital diagrams holds their motion for discussion.
+Pause/Resume in the diagram toolbars holds their motion for discussion.
 The webinar and build animations play once and settle for discussion.
 Animations stop on inactive slides and respect reduced-motion preferences.
 Inactive slides also stay out of keyboard and assistive-technology navigation.

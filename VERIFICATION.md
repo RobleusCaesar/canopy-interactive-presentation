@@ -69,3 +69,12 @@
   generation and printing. No API key was supplied and no AI-generation request
   was made during embed testing. End-to-end generation and PDF printing were not
   tested. Microsoft and GitHub implementation references remain in Sources.
+- The shared guide/stage design was carried through Slides 05, 06, 07, and 09,
+  with matching caption panels on 03, 04, and 08. The 27 content states between
+  the opening and live demo were checked at 1920×1080, 1366×768, 900×900, and
+  390×844. No horizontal overflow or guide/stage collisions were found; desktop
+  content fits above the fixed footer. Narrow screens use stacked panels.
+- All work choices, system profiles, permission states, checkpoints, five webinar
+  steps, and eight build steps were checked, including sample approval and the
+  working sample button. Pause/Resume, Replay, and reduced motion passed.
+  Desktop and phone screenshots of the affected slides were reviewed.
