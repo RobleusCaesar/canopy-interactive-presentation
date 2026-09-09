@@ -16,6 +16,9 @@ The frozen opening copy and the final assembly recap have been removed.
 All title headings, the logo and footer share a left edge. Every small heading
 and the browser title inherit the opening title from steps[0].title.
 Slide 02 advances through chat, an agent introduction, agent examples, and software.
+All four pages share a tinted guide rail, a divided animation stage, and a toolbar.
+The guide becomes a compact top band on narrow screens. Edit app/story-structure.css
+for this shared layout; the example tabs and review notes have their own separators.
 Both agent pages retain the 02 / 03 Agent stage label. The introduction animates
 a human goal becoming completed work, then Next opens the four examples.
 Its agent section has four

@@ -44,6 +44,11 @@
   sample can be tried/reset, and the final step explicitly introduces the live demo.
 - Desktop and mobile screenshots of the new examples and walkthroughs were
   reviewed. Animations change visibly, settle for discussion, and can be replayed.
+- The shared Slide 02 guide/stage layout was checked across all four pages at
+  1920, 1366, 900, and 390 pixels wide. Guide widths stay consistent between pages;
+  content stays inside the stage with no horizontal overflow. All four agent
+  tabs, animation replay, the software example, and reduced motion passed.
+  Desktop example artwork clears the toolbar and review divider.
 - Reduced-motion behavior passed. Inactive slides are inert to keyboard focus.
 - Position survives refresh, and saved positions from the previous published
   sequence migrate correctly. Overview contains 11 entries. Notes, Sources,

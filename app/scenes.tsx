@@ -5,6 +5,7 @@ import { ArrowRight, Check, Code2, Sparkles, RotateCcw, Play } from 'lucide-reac
 import { AgentExamples } from './serena-workflows';
 import AgentIntroduction from './agent-introduction';
 import './scenes.css';
+import './story-structure.css';
 
 export function AnswerStory({phase, active}: {phase:number;active:boolean}) {
   const [replay, setReplay] = useState(0);
