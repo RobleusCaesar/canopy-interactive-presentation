@@ -142,18 +142,3 @@ export function BoundaryScene({active}:Active) {
     <aside className="flow-caption"><p className="micro">The human checkpoint</p><div className="checkpoint-options" aria-label="Human checkpoints">{checkpoints.map(({name,Icon},i)=><button key={name} aria-pressed={chosen===i} onClick={()=>setChosen(i)}><Icon size={18}/>{name}</button>)}</div><h2 className="checkpoint-message" key={chosen}>{item.text}</h2><Note>Useful work. Accountable people.</Note></aside>
   </div>;
 }
-
-export function Questions({active}:Active) {
-  const [chosen,setChosen]=useState(0);
-  const labels=['What repeats?','What is good?','How will you review?'];
-  const answers=['Choose one recurring task.','Describe a useful result.','Decide what you will check.'];
-  const points:Point[]=[[155,100],[565,100],[360,368]];
-  return <div className="flow-layout closing-story">
-    <Figure active={active} label="Your first experiment: choose a recurring task, define a useful result, and decide how to review it.">
-      {points.map((p,i)=><Route key={i} d={petal([360,205],p,62)} gold={chosen===i} delay={i+1}/>)}
-      {points.map(([x,y],i)=><Node key={i} x={x} y={y} label={['The task','The result','Review'][i]} detail={['Recurring work','Useful output','Quality check'][i]} Icon={[RotateCcw,Target,Eye][i]} selected={chosen===i} onClick={()=>setChosen(i)}/>)}
-      <Core x={360} y={205}/>
-    </Figure>
-    <aside className="flow-caption"><p className="micro">Your first experiment</p><div className="closing-questions">{labels.map((s,i)=><button key={s} aria-pressed={chosen===i} onClick={()=>setChosen(i)}><span>0{i+1}</span>{s}<ArrowRight size={18}/></button>)}</div><h2 className="closing-answer" key={chosen}>{answers[chosen]}</h2><Note>Start small. Learn. Repeat.</Note></aside>
-  </div>;
-}

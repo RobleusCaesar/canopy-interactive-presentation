@@ -24,7 +24,7 @@ function orbit(x: number, y: number) {
 
 let lastLoopTime = 2;
 
-export default function Opening({ phase, active }: { phase: number; active: boolean }) {
+export default function Opening({ active }: { active: boolean }) {
   const svg = useRef<SVGSVGElement>(null);
   const id = useId().replace(/:/g, '');
   useEffect(() => {
@@ -32,9 +32,9 @@ export default function Opening({ phase, active }: { phase: number; active: bool
     if (!scene) return;
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => {
-      if (!active || phase === 1 || media.matches) {
+      if (!active || media.matches) {
         scene.pauseAnimations();
-        scene.setCurrentTime(phase === 1 ? lastLoopTime : 2);
+        scene.setCurrentTime(lastLoopTime);
       } else {
         scene.setCurrentTime(lastLoopTime);
         scene.unpauseAnimations();
@@ -43,13 +43,13 @@ export default function Opening({ phase, active }: { phase: number; active: bool
     sync();
     media.addEventListener('change', sync);
     return () => {
-      if (phase === 0 && active) lastLoopTime = scene.getCurrentTime();
+      if (active) lastLoopTime = scene.getCurrentTime();
       scene.pauseAnimations();
       media.removeEventListener('change', sync);
     };
-  }, [active, phase]);
+  }, [active]);
 
-  return <div className="atomic-opening" data-phase={phase}>
+  return <div className="atomic-opening">
     <svg ref={svg} className="atom-canvas" viewBox="0 0 1000 455" role="img" aria-label="You direct Sara, Maya, Alex and Theo. Information circulates between you, your agents, clients, sources and partners. You review, refine and send.">
       <defs>
         <radialGradient id={`${id}-halo`}><stop stopColor="#dfedf1" stopOpacity=".8" /><stop offset="1" stopColor="white" stopOpacity="0" /></radialGradient>
@@ -93,6 +93,6 @@ export default function Opening({ phase, active }: { phase: number; active: bool
         <text y="45" className="human-action">Review · refine · send</text>
       </g>
     </svg>
-    <span className="atom-playback">{phase ? 'Held · Back to replay' : 'Looping · Next to hold'}</span>
+    <span className="atom-playback">Looping · Next to begin</span>
   </div>;
 }

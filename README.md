@@ -1,6 +1,6 @@
 # Canopy interactive presentation
 
-10 presenter-led screens (31 progressive reveal states).
+10 presenter-led screens (29 progressive reveal states).
 
 ## Run and edit
 Use Node 24+, then npm ci and npm run dev. Open the local URL shown.
@@ -11,7 +11,10 @@ Edit app/build-workshop.tsx for the creation and implementation steps and notes.
 Edit app/globals.css for design tokens. Blank demo URLs intentionally hide the links.
 Use Next/Back, arrow keys, Page Up/Page Down, Space, or ordinary scrolling.
 Overview revisits an idea and resets to the start. Notes are off by default.
-The opening scene loops until the first Next holds its exact position for discussion.
+The opening scene loops as people arrive. Next goes directly to the presentation.
+The frozen opening copy and the final assembly recap have been removed.
+All title headings, the logo and footer share a left edge. Every small heading
+and the browser title inherit the opening title from steps[0].title.
 Slide 02 advances through chat, an agent introduction, agent examples, and software.
 Both agent pages retain the 02 / 03 Agent stage label. The introduction animates
 a human goal becoming completed work, then Next opens the four examples.
@@ -27,7 +30,8 @@ The former feedback screen and discovery slide were removed. Slides 08–10 cove
 human checkpoints, the build workshop, and discussion. The build workshop has
 two pages: Requirements / Design / Build, followed by GitHub / Upload / Pages /
 QA / Refine. Each step has its own animation; Refine introduces the live demo.
-The closing diagram returns to one task, a useful result, and human review.
+The closing slide says Thank you, invites questions and displays Rob Carpenter’s
+Canopy Consulting email and phone number as usable contact links.
 Pause/Resume beneath the orbital diagrams holds their motion for discussion.
 The webinar and build animations play once and settle for discussion.
 Animations stop on inactive slides and respect reduced-motion preferences.

@@ -1,10 +1,19 @@
 # Verification
 
 - TypeScript and lint checks on the new modules passed.
-- The presentation now has 10 numbered slides and 31 progressive reveal states.
-- All 31 states were traversed at desktop and phone sizes, with no browser
+- The presentation now has 10 numbered slides and 29 progressive reveal states.
+- All 29 states were traversed at 1920×1080, 1366×768, and 390×844, with no browser
   runtime errors, failed asset requests, horizontal overflow, or content under
   the fixed presentation controls. Titles remain below the fixed header.
+- The opening is titled Working With AI Agents. Every small page heading and
+  the browser title derive from the opening title. All page titles align with
+  the header logo and the footer position; alignment was checked on every state.
+- The frozen opening copy and final All together assembly recap were removed.
+  Next goes straight from the opening to Chat, and from the animated Review
+  assembly state to System profiles. Both retained animations visibly advance.
+- The final slide says Thank you and Questions, with Rob Carpenter, Canopy
+  Consulting, rob@frostrivercapital.com, and (303) 358-6128. Its mailto and tel
+  links were checked, and desktop/phone screenshots were reviewed.
 - Slide 02 now opens its Agent stage with a concise definition and animated
   human-goal / agent-action / completed-work sequence before the four examples.
   Next, Back, Replay, saved-position migration, reduced motion, and desktop/phone
@@ -25,8 +34,10 @@
 - Position survives refresh, and saved positions from the previous published
   sequence migrate correctly. Overview contains 10 entries. Notes, Sources,
   and the setup brief remain available through the existing controls.
-- The accepted opening and agent assembly scenes were preserved. Their exact
-  pause/resume and seven assembly states passed earlier regression checks.
+- The opening and six retained assembly states preserve their existing animated
+  design. Opening reduced motion and offscreen suspension remain supported.
+- Saved positions from versions v2, v3, and v4 migrate to the revised sequence;
+  positions on removed frames map to their animated predecessors.
 - Suggested pacing is 22 minutes of concepts/webinar setup, 40 minutes for the
   build demonstration, and 20 minutes for discussion. Presenter rehearsal remains
   a human preparation step; no timed live rehearsal is claimed.
