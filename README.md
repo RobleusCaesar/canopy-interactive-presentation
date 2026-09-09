@@ -37,9 +37,10 @@ The penultimate slide embeds the live Canopy Bio Builder. It loads on first
 visit, stays mounted when navigating away, and includes Expand and Open app.
 The embedded app handles its own files, API-key setup and workflow. It requires
 internet access. The external tool is maintained separately.
-The closing slide showcases Rob’s actual completed Canopy bio, with a small
-callback to the app, Questions, and his contact links. The supplied PDF is
-rendered upright as a sharp PNG; its contents and source PDF are unchanged.
+The closing slide gives Rob’s actual completed Canopy bio the full available
+stage, without a border or side column, and places a small Thank you beneath it.
+The supplied PDF is rendered upright as a sharp PNG; its contents and source
+PDF are unchanged.
 Clicking the bio opens the full-resolution image in a separate tab.
 Pause/Resume beneath the orbital diagrams holds their motion for discussion.
 The webinar and build animations play once and settle for discussion.
